@@ -5,5 +5,20 @@
 
 [node name="Player" instance=ExtResource("1_wa68d")]
 
+[node name="Idle" parent="StateMachine" index="0"]
+anim_fade = null
+
+[node name="Move" parent="StateMachine" index="1"]
+anim_fade = null
+
+[node name="Jump" parent="StateMachine" index="2"]
+anim_fade = null
+
+[node name="Guard" parent="StateMachine" index="7"]
+anim_fade = null
+
+[node name="Stun" parent="StateMachine" index="8"]
+anim_fade = null
+
 [node name="Input" type="Node" parent="." index="3"]
 script = ExtResource("2_arguv")

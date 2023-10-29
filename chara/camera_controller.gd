@@ -23,6 +23,8 @@ extends Camera3D
 @export var joystick_sensitivity = 120
 @export var mouse_sensitivity=0.1
 @export var rotation_damping=20
+@export var rotation_lower_limit=-80
+@export var rotation_upper_limit=30
 
 var camera_rotation:Vector3
 var zoom = 3
@@ -41,7 +43,7 @@ func _physics_process(delta):
     
     camera_rotation.x+=Input.get_axis("look_up", "look_down") * deg_to_rad(joystick_sensitivity) * delta
     camera_rotation.y+=Input.get_axis("look_right", "look_left") * deg_to_rad(joystick_sensitivity) * delta
-    camera_rotation.x = clamp(camera_rotation.x, deg_to_rad(-80), deg_to_rad(-10))
+    camera_rotation.x = clamp(camera_rotation.x, deg_to_rad(rotation_lower_limit), deg_to_rad(rotation_upper_limit))
 
     # if have secondary target, use it to calculate the rotation
     if secondary_target:
@@ -49,7 +51,7 @@ func _physics_process(delta):
         if (secondary_target_point-target.global_transform.origin).length()>1:
             var look_at_transform=pivot.global_transform.looking_at(secondary_target.global_transform*secondary_target_offset, Vector3(0, 1, 0))
             camera_rotation=look_at_transform.basis.get_euler()
-            camera_rotation.x = clamp(camera_rotation.x, deg_to_rad(-80), deg_to_rad(-10))
+            camera_rotation.x = clamp(camera_rotation.x, deg_to_rad(rotation_lower_limit), deg_to_rad(rotation_upper_limit))
     
     
     zoom += Input.get_axis("zoom_in", "zoom_out") * zoom_speed * delta
@@ -68,5 +70,5 @@ func lerp_euler_angle(a,b,t):
 
 func _input(event):
     if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
-        camera_rotation += Vector3(-event.relative.y, -event.relative.x, 0)*mouse_sensitivity
-        camera_rotation.x = clamp(camera_rotation.x, -80, -10)
+        camera_rotation += Vector3(-event.relative.y, -event.relative.x, 0)*deg_to_rad(mouse_sensitivity)
+        camera_rotation.x = clamp(camera_rotation.x, deg_to_rad(rotation_lower_limit), deg_to_rad(rotation_upper_limit))

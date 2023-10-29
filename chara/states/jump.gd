@@ -1,14 +1,12 @@
 extends CharaState
 
-@export var anim_name:String
-
-@export var can_move:bool=true
+@export var movement_input_midair:bool=true
 
 var reference_velocity:Vector3
 
 
 func physics_update(delta:float):
-    if can_move:
+    if movement_input_midair:
         reference_velocity.y=chara.velocity.y
         chara.velocity = chara.velocity.lerp(
             reference_velocity+chara.speed*chara.input_move,
@@ -16,14 +14,12 @@ func physics_update(delta:float):
     chara.velocity.y-=chara.gravity*delta
     chara.move_and_slide()
 
-    if process_input():
-        return
-
-    if chara.is_on_floor():
-        state_machine.transition_to(on_idle);return
+    if process_input():return
+    if chara.is_on_floor():transition_to_idle();return
 
 func enter(_msg := {}):
+    super(_msg)
     reference_velocity=chara.get_platform_velocity()
     if _msg.has("do_jump"):
         chara.velocity.y+=chara.jump_impulse
-    chara.anim.play(anim_name)
+

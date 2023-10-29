@@ -1,13 +1,11 @@
 extends CharaState
 
-@export var anim_name:String
 @export var anim_name_left:String
 @export var anim_name_right:String
 @export var anim_name_back:String
 
 func physics_update(delta:float):
-    if not chara.is_on_floor():
-        state_machine.transition_to(on_fall);return
+    if detect_falling():return
     
     var look_vector:Vector3 = Vector3.ZERO
     var move_vector:Vector3 = Vector3.ZERO
@@ -43,14 +41,13 @@ func physics_update(delta:float):
         chara.anim.play(anim_name)
 
 
-    if process_input():
-        return
-    if not is_running_crietria():
-        state_machine.transition_to(on_idle);return
+    if process_input():return
+    if not is_running():transition_to_idle();return
 
-func is_running_crietria()->bool:
+func is_running()->bool:
     var rel_velocity=chara.velocity-chara.get_platform_velocity()
     return rel_velocity.length()>0.1*chara.speed or chara.input_move.length()>0.1
 
 func enter(_msg := {}):
+    super(_msg)
     chara.anim.play(anim_name)
