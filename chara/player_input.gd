@@ -14,13 +14,13 @@ func _physics_process(_add_constant_forcedelta):
     move_vector=move_vector.normalized()*input_move_joystick.length()
     chara.input_move=move_vector
     if Input.is_action_just_pressed("jump"):
-        chara.input_action_buffed=chara.InputAction.JUMP
+        chara.input_action_buffed=Chara.InputAction.JUMP
     if Input.is_action_just_pressed("attack"):
-        chara.input_action_buffed=chara.InputAction.ATTACK
+        chara.input_action_buffed=Chara.InputAction.ATTACK
     if Input.is_action_just_pressed("dash"):
-        chara.input_action_buffed=chara.InputAction.DASH
+        chara.input_action_buffed=Chara.InputAction.DASH
     if Input.is_action_just_pressed("guard"):
-        chara.input_action_buffed=chara.InputAction.GUARD
+        chara.input_action_buffed=Chara.InputAction.GUARD
     chara.input_guard_hold=Input.is_action_pressed("guard")
 
     if Input.is_action_just_pressed("lock-on"):

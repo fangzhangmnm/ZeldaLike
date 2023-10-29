@@ -8,21 +8,6 @@
 [node name="Knight_Body" parent="Knight/Rig/Skeleton3D" index="11"]
 transform = Transform3D(1, 0, 1.42109e-14, 0, 1, 0, -1.42109e-14, 0, 1, 0, 0, 0)
 
-[node name="Idle" parent="StateMachine" index="0"]
-anim_fade = null
-
-[node name="Move" parent="StateMachine" index="1"]
-anim_fade = null
-
-[node name="Jump" parent="StateMachine" index="2"]
-anim_fade = null
-
-[node name="Guard" parent="StateMachine" index="7"]
-anim_fade = null
-
-[node name="Stun" parent="StateMachine" index="8"]
-anim_fade = null
-
 [node name="AI" type="Node" parent="." index="3"]
 script = ExtResource("2_rap8a")
 

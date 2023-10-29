@@ -16,10 +16,10 @@ signal transitioned(state_name)
 
 
 func _ready() -> void:
-    await owner.ready
     # The state machine assigns itself to the State objects' state_machine property.
     for child in get_children():
         child.state_machine = self
+    await owner.ready # wait for the owner to be ready
     state.enter()
 
 

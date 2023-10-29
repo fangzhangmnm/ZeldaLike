@@ -5,6 +5,7 @@ extends CharaState
 @export var hit_boxes:Array[HitBox]=[]
 
 func physics_update(_delta:float):
+    super(_delta)
     if is_jump_attack:
         if chara.is_on_floor():
             chara.velocity=chara.get_platform_velocity()
@@ -26,14 +27,14 @@ func physics_update(_delta:float):
 
 func enter(_msg := {}):
     super(_msg)
-    chara.anim_attack_start.connect(_on_attack_start)
-    chara.anim_attack_end.connect(_on_attack_end)
+    chara.anim.anim_attack_start.connect(_on_attack_start)
+    chara.anim.anim_attack_end.connect(_on_attack_end)
     
 
 func exit():
     disable_hitboxes()
-    chara.anim_attack_start.disconnect(_on_attack_start)
-    chara.anim_attack_end.disconnect(_on_attack_end)
+    chara.anim.anim_attack_start.disconnect(_on_attack_start)
+    chara.anim.anim_attack_end.disconnect(_on_attack_end)
     super()
 
 func _on_attack_start():

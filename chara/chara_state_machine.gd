@@ -8,4 +8,5 @@ extends StateMachine
 @export var jump_state : CharaState
 @export var attack_state : CharaState
 @export var guard_state : CharaState
-@export var stun_state : CharaState
+@export var knockback_state : CharaState
+

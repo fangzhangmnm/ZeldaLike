@@ -2,6 +2,7 @@ extends Node
 
 
 @onready var chara:Chara = owner
+@onready var state_machine:CharaStateMachine=%CharaStateMachine
 var player:Chara
 @onready var timer:Timer = $Timer
 

@@ -1,7 +1,4 @@
 - Make a cute character lol
-- hit check block check
+- block check
+- lack of hit feedback
 - audio
-- move brain to child node
-- strafe
-- camera should rotate in lock mode
-- animation in strafe mode

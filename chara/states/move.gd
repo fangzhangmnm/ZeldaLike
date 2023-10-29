@@ -5,18 +5,21 @@ extends CharaState
 @export var anim_name_back:String
 
 func physics_update(delta:float):
+    super(delta)
     if detect_falling():return
     
     var look_vector:Vector3 = Vector3.ZERO
     var move_vector:Vector3 = Vector3.ZERO
 
-    if chara.input_lock_on_target:
-        look_vector=chara.input_lock_on_target.global_position-chara.global_position
+    input_move.y=0
+
+    if input_lock_on_target:
+        look_vector=input_lock_on_target.global_position-chara.global_position
         look_vector.y=0
-        move_vector=chara.speed*chara.input_move
+        move_vector=chara.speed*input_move
     else:
-        look_vector=chara.input_move
-        move_vector=-chara.basis.z*chara.speed*chara.input_move.length()
+        look_vector=input_move
+        move_vector=-chara.basis.z*chara.speed*input_move.length()
 
     if look_vector.length()>0:
         var rotation_direction = Vector2(-look_vector.z, -look_vector.x).angle()
@@ -40,13 +43,12 @@ func physics_update(delta:float):
     else:
         chara.anim.play(anim_name)
 
-
     if process_input():return
     if not is_running():transition_to_idle();return
 
 func is_running()->bool:
     var rel_velocity=chara.velocity-chara.get_platform_velocity()
-    return rel_velocity.length()>0.1*chara.speed or chara.input_move.length()>0.1
+    return rel_velocity.length()>0.1*chara.speed or input_move.length()>0.1
 
 func enter(_msg := {}):
     super(_msg)
