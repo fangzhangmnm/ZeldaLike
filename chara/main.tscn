@@ -1,0 +1,50 @@
+[gd_scene load_steps=10 format=3 uid="uid://cc8qe53ukn336"]
+
+[ext_resource type="PackedScene" uid="uid://cvvyqtf4ncg8d" path="res://chara/chara.tscn" id="1_cwbui"]
+[ext_resource type="Texture2D" uid="uid://vf8wgrqtby1" path="res://checker.svg" id="2_6b8x3"]
+[ext_resource type="Script" path="res://chara/camera.gd" id="3_sbo81"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ybn11"]
+
+[sub_resource type="Sky" id="Sky_2lnpc"]
+sky_material = SubResource("ProceduralSkyMaterial_ybn11")
+
+[sub_resource type="Environment" id="Environment_mb3nx"]
+background_mode = 2
+sky = SubResource("Sky_2lnpc")
+ambient_light_source = 3
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_k42lv"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a8otu"]
+albedo_texture = ExtResource("2_6b8x3")
+uv1_scale = Vector3(50, 50, 50)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_jmta8"]
+material = SubResource("StandardMaterial3D_a8otu")
+size = Vector2(100, 100)
+
+[node name="main" type="Node3D"]
+
+[node name="Chara" parent="." instance=ExtResource("1_cwbui")]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 0, 4, 0)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_mb3nx")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("WorldBoundaryShape3D_k42lv")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+mesh = SubResource("PlaneMesh_jmta8")
+
+[node name="CameraPivot" type="Node3D" parent="." node_paths=PackedStringArray("target")]
+script = ExtResource("3_sbo81")
+target = NodePath("../Chara")
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 6)
