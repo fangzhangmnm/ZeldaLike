@@ -22,7 +22,7 @@ func process_input()->bool:
     if on_attack_input and chara.input_action_buffed==chara.InputAction.ATTACK:
         chara.input_action_buffed=chara.InputAction.NONE
         state_machine.transition_to(on_attack_input);return true
-    if on_guard_input and chara.input_action_buffed==chara.InputAction.GUARD:
+    if on_guard_input and chara.input_guard_hold:
         chara.input_action_buffed=chara.InputAction.NONE
         state_machine.transition_to(on_guard_input);return true
     if on_dash_input and chara.input_action_buffed==chara.InputAction.DASH:

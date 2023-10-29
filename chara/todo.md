@@ -1,2 +1,7 @@
 - Make a cute character lol
-- refine camera. to make it aim certain screen location to certain character part
+- hit check block check
+- audio
+- move brain to child node
+- strafe
+- camera should rotate in lock mode
+- animation in strafe mode

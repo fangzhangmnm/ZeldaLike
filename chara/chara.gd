@@ -8,6 +8,7 @@ enum InputAction{
 var input_move:Vector3=Vector3.ZERO
 var input_action_buffed:InputAction=InputAction.NONE
 var input_guard_hold:bool=false
+var input_lock_on_target:Node3D=null
 
 @export var speed:float=5 
 @export var jump_impulse:float=5
@@ -18,6 +19,7 @@ var input_guard_hold:bool=false
 @onready var anim:AnimationPlayer=%AnimationPlayer
 @onready var state_machine:StateMachine=%StateMachine
 
+# enable_canceling, attack_start, attack_end
 signal anim_event(evt_name:String)
 signal anim_finished
 
@@ -26,3 +28,4 @@ func _on_anim_finished(_anim_name:StringName):
 
 func can_jump()->bool:
 	return is_on_floor()
+	

@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://boxpw8aqwnxwb"]
+
+[ext_resource type="PackedScene" uid="uid://cvvyqtf4ncg8d" path="res://chara/chara.tscn" id="1_wa68d"]
+[ext_resource type="Script" path="res://chara/player_input.gd" id="2_arguv"]
+
+[node name="Player" instance=ExtResource("1_wa68d")]
+
+[node name="Input" type="Node" parent="." index="3"]
+script = ExtResource("2_arguv")
