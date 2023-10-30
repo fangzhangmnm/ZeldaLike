@@ -1,8 +1,9 @@
 class_name CameraController
-extends Camera3D
+extends Node3D
 
-@export var pivot: Node3D
-@onready var camera = self
+@onready var pivot: Node3D=self
+@onready var camera: Camera3D=$Camera
+@onready var raycast: ShapeCast3D=$ShapeCast3D
 
 
 @export_group("Target Follow")
@@ -11,6 +12,7 @@ extends Camera3D
 @export var follow_damping=4
 @export var secondary_target: Node3D
 @export var secondary_target_offset: Vector3=Vector3(0, 1.8, 0)
+@export var secondary_target_screen_offset: Vector3=Vector3(20, -30, 0)
 
 
 @export_group("Zoom")
@@ -46,21 +48,24 @@ func _physics_process(delta):
     camera_rotation.x = clamp(camera_rotation.x, deg_to_rad(rotation_lower_limit), deg_to_rad(rotation_upper_limit))
 
     # if have secondary target, use it to calculate the rotation
-    if secondary_target:
+    if is_instance_valid(secondary_target):
         var secondary_target_point=secondary_target.global_transform*secondary_target_offset
         if (secondary_target_point-target.global_transform.origin).length()>1:
             var look_at_transform=pivot.global_transform.looking_at(secondary_target.global_transform*secondary_target_offset, Vector3(0, 1, 0))
             camera_rotation=look_at_transform.basis.get_euler()
+            camera_rotation+=secondary_target_screen_offset*deg_to_rad(1)
             camera_rotation.x = clamp(camera_rotation.x, deg_to_rad(rotation_lower_limit), deg_to_rad(rotation_upper_limit))
     
-    
+    var max_dist=raycast.get_closest_collision_safe_fraction()*raycast.target_position.length()
     zoom += Input.get_axis("zoom_in", "zoom_out") * zoom_speed * delta
     zoom = clamp(zoom, zoom_maximum, zoom_minimum)
-    
+
+    var target_dist=min(zoom, max_dist)
+
     pivot.global_position = pivot.global_position.lerp(target.global_transform*target_offset, delta * follow_damping)
     pivot.global_rotation = lerp_euler_angle(pivot.global_rotation, camera_rotation, delta * rotation_damping)
     
-    camera.position = camera.position.lerp(Vector3(0, 0, zoom), delta*zoom_damping)
+    camera.position = camera.position.lerp(Vector3(0, 0, target_dist), delta*zoom_damping)
 
 func lerp_euler_angle(a,b,t):
     var result = Vector3()

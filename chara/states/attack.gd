@@ -4,8 +4,16 @@ extends CharaState
 @export var poise_damage_multiplier:float=1.0
 
 @export var is_jump_attack:bool=false
+@export var can_attack_multiple:bool=true
+
+
+@export var align_enemy_threshold_distance:float=2
+@export var align_enemy_threshold_deg:float=30
 
 @export var hit_boxes:Array[HitBox]=[]
+
+
+var attacked_charas:Array[Chara]=[]
 
 func physics_update(_delta:float):
     super(_delta)
@@ -32,6 +40,12 @@ func enter(_msg := {}):
     super(_msg)
     chara.anim.anim_attack_start.connect(_on_attack_start)
     chara.anim.anim_attack_end.connect(_on_attack_end)
+    attacked_charas.clear()
+    if align_enemy_threshold_deg>0:
+        var response=chara.find_nearest_enemy(align_enemy_threshold_deg)
+        if response.chara and response.distance<align_enemy_threshold_distance:
+            chara.look_at(response.chara.global_position)
+            print("align to enemy: "+response.chara.name)
     
 
 func exit():
@@ -67,9 +81,11 @@ func _on_attack_hit(hit:HitBox,hurt:HurtBox):
     msg.damage=chara.attack_damage*damage_multiplier
     msg.poise_damage=chara.attack_poise_damage*poise_damage_multiplier
     msg.is_blocked=hurt.is_block_box
-  
 
-    if hurt.chara and hurt.chara.has_method("on_hit"):
-        hurt.chara.on_hit(msg)
-
-    disable_hitboxes()
+    if hurt.chara not in attacked_charas:
+        attacked_charas.append(hurt.chara)
+        if hurt.chara.has_method("on_hit"):
+            hurt.chara.on_hit(msg)
+    
+    if not can_attack_multiple:
+        disable_hitboxes()

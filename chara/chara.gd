@@ -1,6 +1,6 @@
 class_name Chara
 extends CharacterBody3D
-
+const COLLISION_LAYER_NUMBER=10
 
 @export_category("Locomotion")
 @export var speed:float=5 
@@ -24,6 +24,7 @@ var poise_recovery_delay_timer:float=0
 
 @export_category("Misc")
 @export var faction:String="none"
+@export var debug_revive:bool=false
 
 
 @onready var anim:AnimationPlayer=%AnimationPlayer
@@ -38,8 +39,9 @@ enum InputAction{
 var input_move:Vector3=Vector3.ZERO
 var input_action_buffed:InputAction=InputAction.NONE
 var input_guard_hold:bool=false
-var input_lock_on_target:Node3D=null
-
+var input_lock_on_target:Node3D=null:
+    get:return input_lock_on_target if is_instance_valid(input_lock_on_target) else null
+    set(value):input_lock_on_target=value
 
 
 func can_jump()->bool:
@@ -65,13 +67,13 @@ func on_hit(msg:HitMessage):
         print(name," takes poise damage, current poise: ",current_poise)
 
         if not msg.is_blocked:
-            poise_recovery_delay_timer=0
+            poise_recovery_delay_timer=poise_recovery_delay
         state_machine.state.on_knockback()
 
 func status_update(delta:float):
     if not is_dead():
-        poise_recovery_delay_timer+=delta
-        if poise_recovery_delay_timer>=poise_recovery_delay:
+        poise_recovery_delay_timer-=delta
+        if poise_recovery_delay_timer<=0:
             current_poise=max_poise
 
 func _physics_process(delta:float):
@@ -82,4 +84,36 @@ func configure_dead(value:bool):
     if value:
         $CapsuleCollider.set_deferred("disabled",true)
     else:
-        assert(false)
+        $CapsuleCollider.set_deferred("disabled",false)
+
+func _ready():
+    add_to_group("chara")
+    collision_layer=1<<COLLISION_LAYER_NUMBER
+    collision_mask=(1<<COLLISION_LAYER_NUMBER)|1
+
+
+func get_facing_angle(other:Node3D):
+    return (-global_transform.basis.z).angle_to(other.global_position-global_position)
+
+
+
+func find_nearest_enemy(angle_threshold_deg:float=45,max_distance:float=10):
+    var angle_threshold=deg_to_rad(angle_threshold_deg)
+    var nearest_enemy:Node3D=null
+    var nearest_distance:float=max_distance
+    var enemy_angle:float=0
+    for other in get_tree().get_nodes_in_group("chara"):
+        if other is Chara and not is_friendly(other):
+            var angle=get_facing_angle(other)
+            if abs(angle)<angle_threshold:
+                var distance=global_transform.origin.distance_to(other.global_transform.origin)
+                if distance<nearest_distance:
+
+
+
+
+                    nearest_distance=distance
+                    nearest_enemy=other
+                    enemy_angle=angle
+    return {chara=nearest_enemy,distance=nearest_distance,angle=enemy_angle}
+

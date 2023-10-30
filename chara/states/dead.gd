@@ -11,6 +11,10 @@ func physics_update(_delta:float)->void:
     # chara.move_and_slide()
 
     if elapsed_physics_time>remove_time:
+        if chara.debug_revive:
+            chara.current_health=chara.max_health
+            chara.current_poise=chara.max_poise
+            transition_to_idle()
         chara.queue_free()
 
 func enter(_msg := {}):

@@ -92,7 +92,7 @@ func transition_to_idle():
 func on_knockback():
     if can_knockback:
         if chara.current_poise<=0:
-            chara.current_poise=chara.max_poise
+            chara.poise_recovery_delay_timer=.2
             transition_to(stagger_state)
         else:
             transition_to(knockback_state)

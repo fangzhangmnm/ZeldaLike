@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://dh6aa8lay65sh"]
+
+[ext_resource type="Script" path="res://chara/camera_controller.gd" id="1_cymec"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_cgfvi"]
+radius = 0.2
+
+[node name="CameraPivot" type="Node3D"]
+script = ExtResource("1_cymec")
+
+[node name="Camera" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4)
+
+[node name="ShapeCast3D" type="ShapeCast3D" parent="."]
+shape = SubResource("SphereShape3D_cgfvi")
+target_position = Vector3(0, 0, 4)

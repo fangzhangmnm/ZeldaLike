@@ -1,6 +1,6 @@
 extends Node
 
-@onready var camera:CameraController=get_viewport().get_camera_3d() as CameraController
+@onready var camera:CameraController=get_viewport().get_camera_3d().owner as CameraController
 @onready var chara:Chara=owner
 
 
@@ -28,7 +28,7 @@ func _physics_process(_add_constant_forcedelta):
             chara.input_lock_on_target=null
             camera.secondary_target=null
         else:
-            chara.input_lock_on_target=chara.get_tree().get_nodes_in_group("enemy")[0]
+            chara.input_lock_on_target=chara.find_nearest_enemy().chara
             camera.secondary_target=chara.input_lock_on_target
     
     

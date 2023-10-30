@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://jcvpj4ae66wk"]
+
+[ext_resource type="Texture2D" uid="uid://vf8wgrqtby1" path="res://chara/assets/checker.svg" id="1_ms7nb"]
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_k42lv"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a8otu"]
+albedo_texture = ExtResource("1_ms7nb")
+uv1_scale = Vector3(50, 50, 50)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_jmta8"]
+material = SubResource("StandardMaterial3D_a8otu")
+size = Vector2(100, 100)
+
+[node name="Ground" type="StaticBody3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("WorldBoundaryShape3D_k42lv")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_jmta8")
