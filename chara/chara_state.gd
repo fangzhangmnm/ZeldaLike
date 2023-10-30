@@ -6,6 +6,10 @@ extends State
 @export var anim_time:float=-1
 @export var anim_fade:bool=true
 
+@export_category("Audio and Effects")
+@export var audio_stream:AudioStream=null
+@export var audio_stream_player:AudioStreamPlayer3D=null
+
 @export_category("Default State Transition Behavior")
 @export var can_move:bool=true
 @export var can_fall:bool=true
@@ -22,7 +26,8 @@ extends State
 @export var attack_state_override:CharaState=null
 @export var guard_state_override:CharaState=null
 @export var knockback_state_override:CharaState=null
-
+@export var stagger_state_override:CharaState=null
+@export var dead_state_override:CharaState=null
 
 var idle_state:CharaState:
     get:return idle_state_override if idle_state_override else state_machine.idle_state
@@ -38,6 +43,10 @@ var guard_state:CharaState:
     get:return guard_state_override if guard_state_override else state_machine.guard_state
 var knockback_state:CharaState:
     get:return knockback_state_override if knockback_state_override else state_machine.knockback_state
+var stagger_state:CharaState:
+    get:return stagger_state_override if stagger_state_override else state_machine.stagger_state
+var dead_state:CharaState:
+    get:return dead_state_override if dead_state_override else state_machine.dead_state
 
 var input_move:Vector3:
     get:return chara.input_move
@@ -82,10 +91,17 @@ func transition_to_idle():
 
 func on_knockback():
     if can_knockback:
-        transition_to(knockback_state)
+        if chara.current_poise<=0:
+            chara.current_poise=chara.max_poise
+            transition_to(stagger_state)
+        else:
+            transition_to(knockback_state)
+
+func transition_to_dead():
+    transition_to(dead_state)
 
 
-func _physics_process(delta):
+func _physics_process(_delta):
     if chara.anim.current_animation!=anim_name:
         is_anim_finished=true
 
@@ -94,6 +110,11 @@ func enter(_msg:={}):
     is_anim_finished=false
     chara.anim.anim_enable_canceling.connect(_on_enable_canceling)
     chara.anim.anim_finished.connect(_on_anim_finished)
+    
+    if audio_stream:
+        audio_stream_player.stream=audio_stream
+        audio_stream_player.play()
+
     if anim_name!="":
         if not anim_fade:
             pass

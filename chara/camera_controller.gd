@@ -41,7 +41,7 @@ func _physics_process(delta):
             Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
     
     
-    camera_rotation.x+=Input.get_axis("look_up", "look_down") * deg_to_rad(joystick_sensitivity) * delta
+    camera_rotation.x-=Input.get_axis("look_up", "look_down") * deg_to_rad(joystick_sensitivity) * delta
     camera_rotation.y+=Input.get_axis("look_right", "look_left") * deg_to_rad(joystick_sensitivity) * delta
     camera_rotation.x = clamp(camera_rotation.x, deg_to_rad(rotation_lower_limit), deg_to_rad(rotation_upper_limit))
 

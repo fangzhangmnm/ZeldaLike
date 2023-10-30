@@ -1,14 +1,29 @@
-[gd_scene load_steps=3 format=3 uid="uid://1rub37identf"]
+[gd_scene load_steps=4 format=3 uid="uid://1rub37identf"]
 
 [ext_resource type="PackedScene" uid="uid://cvvyqtf4ncg8d" path="res://chara/chara.tscn" id="1_4gcbb"]
 [ext_resource type="Script" path="res://chara/simple_enemy.gd" id="2_rap8a"]
 
+[sub_resource type="ViewportTexture" id="ViewportTexture_2jkk6"]
+viewport_path = NodePath("HealthBar3D/SubViewport")
+
 [node name="Enemy" instance=ExtResource("1_4gcbb")]
+max_poise = 25
+current_poise = 25.0
+faction = "enemy"
+
+[node name="CollisionShape3D" parent="Knight/Rig/Skeleton3D/1H_Sword/1H_Sword/HitBox" index="0"]
+transform = Transform3D(1, 0, 1.1176e-08, -7.45058e-09, 1, 5.96046e-08, -1.49012e-08, 4.47035e-08, 1, 0, 0.791278, 5.96046e-08)
 
 [node name="Knight_Body" parent="Knight/Rig/Skeleton3D" index="11"]
 transform = Transform3D(1, 0, 1.42109e-14, 0, 1, 0, -1.42109e-14, 0, 1, 0, 0, 0)
+
+[node name="CharaStateMachine" parent="." index="1"]
+debug = true
 
 [node name="AI" type="Node" parent="." index="3"]
 script = ExtResource("2_rap8a")
 
 [node name="Timer" type="Timer" parent="AI" index="0"]
+
+[node name="HealthBar3D" parent="." index="4"]
+texture = SubResource("ViewportTexture_2jkk6")

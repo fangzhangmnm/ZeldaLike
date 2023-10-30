@@ -1,4 +1,8 @@
 - Make a cute character lol
-- block check
 - lack of hit feedback
 - audio
+- different sfx for different outcome
+
+
+- player too fat, what's a good camer scheme?
+- behavior tree for stafle options for enemy

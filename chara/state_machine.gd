@@ -20,6 +20,7 @@ func _ready() -> void:
     for child in get_children():
         child.state_machine = self
     await owner.ready # wait for the owner to be ready
+    state.elapsed_physics_time = 0
     state.enter()
 
 
@@ -33,6 +34,7 @@ func _process(delta: float) -> void:
 
 
 func _physics_process(delta: float) -> void:
+    state.elapsed_physics_time += delta
     state.physics_update(delta)
 
 
@@ -46,5 +48,6 @@ func transition_to(target_state: State, msg: Dictionary = {}) -> void:
         print("Transitioning from ", state.name, " to ", target_state.name)
     state.exit()
     state = target_state
+    state.elapsed_physics_time = 0
     state.enter(msg)
     emit_signal("transitioned", state.name)

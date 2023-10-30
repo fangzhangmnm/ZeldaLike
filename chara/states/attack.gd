@@ -1,5 +1,8 @@
 extends CharaState
 
+@export var damage_multiplier:float=1.0
+@export var poise_damage_multiplier:float=1.0
+
 @export var is_jump_attack:bool=false
 
 @export var hit_boxes:Array[HitBox]=[]
@@ -57,12 +60,16 @@ func disable_hitboxes():
 
 
 func _on_attack_hit(hit:HitBox,hurt:HurtBox):
-    var name1=hit.name
-    if hit.chara: name1=hit.chara.name
-    var name2=hurt.name
-    if hurt.chara: name2=hurt.chara.name
-    print("hit: "+name1+" hurt: "+name2)
-    if hurt.chara and hurt.chara is Chara:
-        hurt.chara.take_damage()
+    if state_machine.debug:
+        print("hit: "+(hit.chara.name if hit.chara else hit.name)+" hurt: "+(hurt.chara.name if hurt.chara else hurt.name))
+
+    var msg=HitMessage.new()
+    msg.damage=chara.attack_damage*damage_multiplier
+    msg.poise_damage=chara.attack_poise_damage*poise_damage_multiplier
+    msg.is_blocked=hurt.is_block_box
+  
+
+    if hurt.chara and hurt.chara.has_method("on_hit"):
+        hurt.chara.on_hit(msg)
 
     disable_hitboxes()

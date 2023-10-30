@@ -7,6 +7,7 @@ extends Node
 # state and the state machine objects, but we found it to be most efficient for our needs.
 # The state machine node will set it.
 var state_machine:StateMachine = null
+var elapsed_physics_time:float = 0.0
 
 
 # Virtual function. Receives events from the `_unhandled_input()` callback.

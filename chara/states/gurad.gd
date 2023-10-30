@@ -1,5 +1,7 @@
 extends CharaState
 
+@export var damage_reduction:float=0.1
+@export var poise_damage_reduction:float=0.5
 
 func physics_update(_delta:float):
     super(_delta)

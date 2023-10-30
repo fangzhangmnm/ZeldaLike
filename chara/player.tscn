@@ -1,12 +1,16 @@
-[gd_scene load_steps=3 format=3 uid="uid://boxpw8aqwnxwb"]
+[gd_scene load_steps=4 format=3 uid="uid://boxpw8aqwnxwb"]
 
 [ext_resource type="PackedScene" uid="uid://cvvyqtf4ncg8d" path="res://chara/chara.tscn" id="1_wa68d"]
 [ext_resource type="Script" path="res://chara/player_input.gd" id="2_arguv"]
 
-[node name="Player" instance=ExtResource("1_wa68d")]
+[sub_resource type="ViewportTexture" id="ViewportTexture_icrbg"]
+viewport_path = NodePath("HealthBar3D/SubViewport")
 
-[node name="CharaStateMachine" parent="." index="1"]
-debug = true
+[node name="Player" instance=ExtResource("1_wa68d")]
+faction = "player"
 
 [node name="Input" type="Node" parent="." index="3"]
 script = ExtResource("2_arguv")
+
+[node name="HealthBar3D" parent="." index="4"]
+texture = SubResource("ViewportTexture_icrbg")

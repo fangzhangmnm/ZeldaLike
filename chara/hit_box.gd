@@ -12,10 +12,6 @@ func _ready():
 
 func _on_area_entered(other:Area3D):
     # print("_on_area_entered ",other.get_path())
-    if other is HurtBox:
-        other=other as HurtBox
-        if chara!=null and chara==other.chara:
-            pass
-        else:
-            on_hit.emit(self,other)
+    if other is HurtBox and other.is_valid_target(self):
+        on_hit.emit(self,other)
 
