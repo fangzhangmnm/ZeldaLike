@@ -6,3 +6,4 @@
 
 - player too fat, what's a good camer scheme?
 - behavior tree for stafle options for enemy
+- move take_damage logic to states
