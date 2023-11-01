@@ -12,7 +12,7 @@ signal transitioned(state_name)
 
 # The current active state. At the start of the game, we get the `initial_state`.
 @export var state :State= null
-@export var debug:bool = false
+@export var debug_log_transition:bool = false
 
 
 func _ready() -> void:
@@ -44,8 +44,8 @@ func _physics_process(delta: float) -> void:
 func transition_to(target_state: State, msg: Dictionary = {}) -> void:
     assert(target_state!=null, "Cannot transition to a null state.")
     assert(target_state.state_machine==self, "Cannot transition to a state that doesn't belong to this state machine.")
-    if debug:
-        print("Transitioning from ", state.name, " to ", target_state.name)
+    if debug_log_transition and (not "debug_log" in owner or owner.debug_log):
+        printt("Transitioning from ", state.name, " to ", target_state.name)
     state.exit()
     state = target_state
     state.elapsed_physics_time = 0

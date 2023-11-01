@@ -29,6 +29,7 @@ transform = Transform3D(-0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, -0.965926
 [node name="Player" parent="." groups=["player"] instance=ExtResource("2_twb8q")]
 unique_name_in_owner = true
 debug_revive = true
+debug_log = true
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 0, 4, 0)

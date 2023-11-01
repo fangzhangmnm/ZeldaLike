@@ -1,9 +1,19 @@
-- Make a cute character lol
-- lack of hit feedback
-- different sfx for different outcome
-- behavior tree for stafle options for enemy
-- move take_damage logic to states
-- fix is_instance_valid 
-- separate character preception class
-- lock use different logic than find enemy
-- add line of sight check
+- 重构攻击判定逻辑，每一帧检查overlap，解决同一帧有盾和身体的bug
+- 无敌帧系统
+- 受击和技能发动音效，这个独立于动画的音效
+- 把感知功能集中在一个类里面。预存索敌结果
+- 视线检查
+- 行为树
+- 提高打击感
+- 受击音效。不同的攻击结果有不同的音效。音效存在sfx文件夹里统一调取
+- 动画只emit signal，音效的引用还是脚本负责
+- 绕着玩家转的ai，用行为树
+- state可以覆盖take_damage逻辑
+- 把 if xxx 改成 if is_instance_valid(xxx)
+- 摄像机锁定逻辑
+- 做一个可爱的主角
+- 防守时可以移动，攻击时可以小幅移动
+- 长按检测
+- 跑步功能
+- 调整摄像机的角度
+- 跳跃有延迟

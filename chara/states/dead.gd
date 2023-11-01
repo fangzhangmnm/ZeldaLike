@@ -1,6 +1,6 @@
 extends CharaState
 
-@export var remove_time:float=10
+@export var remove_time:float=5
 
 func physics_update(_delta:float)->void:
     super(_delta)
@@ -14,8 +14,9 @@ func physics_update(_delta:float)->void:
         if chara.debug_revive:
             chara.current_health=chara.max_health
             chara.current_poise=chara.max_poise
-            transition_to_idle()
-        chara.queue_free()
+            transition_to(idle_state)
+        else:
+            chara.queue_free()
 
 func enter(_msg := {}):
     super(_msg)

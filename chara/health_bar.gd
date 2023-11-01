@@ -11,17 +11,23 @@ extends Node
 
 @export var lerp_speed:float=5
 
-
-func _process(_delta):
-    if sprite and subviewport:
-        sprite.texture= subviewport.get_texture()
+func _ready():
     if chara and health_bar:
         health_bar.max_value = chara.max_health
-        health_bar.value = lerp(health_bar.value,chara.current_health,lerp_speed*_delta)
+        health_bar.value = chara.current_health
     if chara and poise_bar:
         poise_bar.max_value = chara.max_poise
-        poise_bar.value = lerp(poise_bar.value,chara.current_poise,lerp_speed*_delta)
-    if sprite:
+        poise_bar.value = chara.current_poise
+
+func _physics_process(delta):
+    if chara and health_bar:
+        health_bar.max_value = chara.max_health
+        health_bar.value = lerp(health_bar.value,chara.current_health,lerp_speed*delta)
+    if chara and poise_bar:
+        poise_bar.max_value = chara.max_poise
+        poise_bar.value = lerp(poise_bar.value,chara.current_poise,lerp_speed*delta)
+    if sprite and subviewport:
         sprite.visible=chara.current_health>0
+        sprite.texture= subviewport.get_texture()
     
 

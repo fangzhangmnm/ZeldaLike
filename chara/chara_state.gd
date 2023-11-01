@@ -7,44 +7,48 @@ extends State
 @export var anim_fade:bool=true
 
 @export_category("Audio and Effects")
-@export var audio_stream:AudioStream=null
-@export var audio_stream_player:AudioStreamPlayer3D=null
+@export var start_sound:AudioStream=null
+@export var audio_source:AudioStreamPlayer3D=null
 
-@export_category("Default State Transition Behavior")
+@export_category("Default State Behavior")
 @export var can_move:bool=true
-@export var can_fall:bool=true
+@export var will_fall:bool=true
+@export var can_dash:bool=true
 @export var can_jump:bool=true
 @export var can_attack:bool=true
 @export var can_guard:bool=true
-@export var can_knockback:bool=true
+@export var can_be_knockback:bool=true
+@export var can_be_hit:bool=true
 
 @export_category("Default State Override")
 @export var idle_state_override:CharaState=null
-@export var move_state_override:CharaState=null
-@export var fall_state_override:CharaState=null
-@export var jump_state_override:CharaState=null
-@export var attack_state_override:CharaState=null
-@export var guard_state_override:CharaState=null
-@export var knockback_state_override:CharaState=null
-@export var stagger_state_override:CharaState=null
-@export var dead_state_override:CharaState=null
-
 var idle_state:CharaState:
     get:return idle_state_override if idle_state_override else state_machine.idle_state
+@export var move_state_override:CharaState=null
 var move_state:CharaState:
     get:return move_state_override if move_state_override else state_machine.move_state
+@export var fall_state_override:CharaState=null
 var fall_state:CharaState:
     get:return fall_state_override if fall_state_override else state_machine.fall_state
+@export var dash_state_override:CharaState=null
+var dash_state:CharaState:
+    get:return dash_state_override if dash_state_override else state_machine.dash_state
+@export var jump_state_override:CharaState=null
 var jump_state:CharaState:
     get:return jump_state_override if jump_state_override else state_machine.jump_state
+@export var attack_state_override:CharaState=null
 var attack_state:CharaState:
     get:return attack_state_override if attack_state_override else state_machine.attack_state
+@export var guard_state_override:CharaState=null
 var guard_state:CharaState:
     get:return guard_state_override if guard_state_override else state_machine.guard_state
+@export var knockback_state_override:CharaState=null
 var knockback_state:CharaState:
     get:return knockback_state_override if knockback_state_override else state_machine.knockback_state
+@export var stagger_state_override:CharaState=null
 var stagger_state:CharaState:
     get:return stagger_state_override if stagger_state_override else state_machine.stagger_state
+@export var dead_state_override:CharaState=null
 var dead_state:CharaState:
     get:return dead_state_override if dead_state_override else state_machine.dead_state
 
@@ -67,38 +71,36 @@ var canceling_enabled:bool=false
 var is_anim_finished:bool=false
 
 func process_input()->bool:
+    if can_dash and input_action_buffed==Chara.InputAction.DASH:
+        input_action_buffed=Chara.InputAction.NONE
+        transition_to(dash_state);return true
     if can_attack and input_action_buffed==Chara.InputAction.ATTACK:
         input_action_buffed=Chara.InputAction.NONE
         transition_to(attack_state);return true
-    if can_guard and input_guard_hold and state_machine.state!=guard_state:
+    if can_guard and input_guard_hold and self!=guard_state:
         input_action_buffed=Chara.InputAction.NONE
         transition_to(guard_state);return true
     if can_jump and input_action_buffed==Chara.InputAction.JUMP and chara.can_jump():
         input_action_buffed=Chara.InputAction.NONE
         transition_to(jump_state,{do_jump=true});return true
-    if can_move and input_move.length()>0 and state_machine.state!=move_state and state_machine.state!=jump_state:
+    if can_move and input_move.length()>0 and self!=move_state and self!=jump_state:
         transition_to(move_state);return true
     return false
 
 
 func detect_falling()->bool:
-    if can_fall and not chara.is_on_floor() and state_machine.state!=fall_state:
+    if will_fall and not chara.is_on_floor() and self!=fall_state:
         transition_to(fall_state);return true
     return false
 
-func transition_to_idle():
-    transition_to(idle_state)
-
 func on_knockback():
-    if can_knockback:
+    if can_be_knockback:
         if chara.current_poise<=0:
             chara.poise_recovery_delay_timer=.2
             transition_to(stagger_state)
         else:
             transition_to(knockback_state)
 
-func transition_to_dead():
-    transition_to(dead_state)
 
 
 func _physics_process(_delta):
@@ -111,9 +113,9 @@ func enter(_msg:={}):
     chara.anim.anim_enable_canceling.connect(_on_enable_canceling)
     chara.anim.anim_finished.connect(_on_anim_finished)
     
-    if audio_stream:
-        audio_stream_player.stream=audio_stream
-        audio_stream_player.play()
+    if audio_source and start_sound:
+        audio_source.stream=start_sound
+        audio_source.play()
 
     if anim_name!="":
         if not anim_fade:

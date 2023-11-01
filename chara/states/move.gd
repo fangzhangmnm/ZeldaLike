@@ -44,7 +44,7 @@ func physics_update(delta:float):
         chara.anim.play(anim_name)
 
     if process_input():return
-    if not is_running():transition_to_idle();return
+    if not is_running():transition_to(idle_state);return
 
 func is_running()->bool:
     var rel_velocity=chara.velocity-chara.get_platform_velocity()

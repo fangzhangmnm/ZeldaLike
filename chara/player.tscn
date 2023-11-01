@@ -3,14 +3,32 @@
 [ext_resource type="PackedScene" uid="uid://cvvyqtf4ncg8d" path="res://chara/chara.tscn" id="1_wa68d"]
 [ext_resource type="Script" path="res://chara/player_input.gd" id="2_arguv"]
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_htxwp"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_oxjep"]
 viewport_path = NodePath("HealthBar3D/SubViewport")
 
 [node name="Player" instance=ExtResource("1_wa68d")]
 faction = "player"
 
+[node name="Idle" parent="CharaStateMachine" index="0"]
+will_knockback = null
+
+[node name="Dash" parent="CharaStateMachine" index="1"]
+will_knockback = null
+
+[node name="Move" parent="CharaStateMachine" index="3"]
+will_knockback = null
+
+[node name="Knockback" parent="CharaStateMachine" index="11"]
+will_hurt = null
+
+[node name="GuardedKnockback" parent="CharaStateMachine" index="12"]
+will_hurt = null
+
+[node name="Stagger" parent="CharaStateMachine" index="13"]
+will_hurt = null
+
 [node name="Input" type="Node" parent="." index="3"]
 script = ExtResource("2_arguv")
 
-[node name="HealthBar3D" parent="." index="4"]
-texture = SubResource("ViewportTexture_htxwp")
+[node name="HealthBar3D" parent="." index="5"]
+texture = SubResource("ViewportTexture_oxjep")

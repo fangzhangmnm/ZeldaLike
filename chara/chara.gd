@@ -19,17 +19,21 @@ const COLLISION_LAYER_NUMBER=10
 var poise_recovery_delay_timer:float=0
 
 @export_category("Offensive")
-@export var attack_damage:int=10
+@export var attack_damage:int=20
 @export var attack_poise_damage:int=10
 
 @export_category("Misc")
 @export var faction:String="none"
 @export var debug_revive:bool=false
+@export var debug_log:bool=false
 
 
-@onready var anim:AnimationPlayer=%AnimationPlayer
+@onready var anim:CharaAnimationPlayer=%AnimationPlayer
 @onready var state_machine:CharaStateMachine=%CharaStateMachine
-
+var state:CharaState:
+    get:return state_machine.state
+    set(_value):assert(false,"state is read only")
+@onready var perception:CharaPerception=%CharaPerception
 
 
 # Input
@@ -42,33 +46,40 @@ var input_guard_hold:bool=false
 var input_lock_on_target:Node3D=null:
     get:return input_lock_on_target if is_instance_valid(input_lock_on_target) else null
     set(value):input_lock_on_target=value
+var is_invulnerable:bool=false
+
 
 
 func can_jump()->bool:
     return is_on_floor() and not is_dead()
 
 func is_dead()->bool:
-    return state_machine.state==state_machine.dead_state
+    return state==state_machine.dead_state
 
 func is_friendly(other)->bool:
     return other is Chara and other.faction==faction
 
+func can_be_hit()->bool:
+    return not is_dead() and not is_invulnerable and state.can_be_hit
 
 func on_hit(msg:HitMessage):
-    if not is_dead():
-        if msg.is_blocked and "damage_reduction" in state_machine.state:
-            msg.damage*=state_machine.state.damage_reduction
-            msg.poise_damage*=state_machine.state.poise_damage_reduction
+    if can_be_hit():
+        msg.is_blocked = msg.is_blocked and "is_guard_state" in state
+        if msg.is_blocked:
+            msg.damage*=state.damage_reduction
+            msg.poise_damage*=state.poise_damage_reduction
         current_health=clamp(current_health-msg.damage,0,max_health)
-        print(name," takes damage, current health: ",current_health)
         if current_health<=0:
-            state_machine.state.transition_to_dead();return
+            state.transition_to(state.dead_state);return
         current_poise=clamp(current_poise-msg.poise_damage,0,max_poise)
-        print(name," takes poise damage, current poise: ",current_poise)
+
+        if debug_log:
+            var word="was hit by" if not msg.is_blocked else "blocks"
+            printt(name,word,msg.dealer.name,',takes',msg.damage,'damage and',msg.poise_damage,'poise damage')
 
         if not msg.is_blocked:
             poise_recovery_delay_timer=poise_recovery_delay
-        state_machine.state.on_knockback()
+        state.on_knockback()
 
 func status_update(delta:float):
     if not is_dead():
@@ -80,7 +91,7 @@ func _physics_process(delta:float):
     status_update(delta)
 
 func configure_dead(value:bool):
-    print("configure dead: ",value)
+    if debug_log: printt("configure dead: ",value)
     if value:
         $CapsuleCollider.set_deferred("disabled",true)
     else:
@@ -108,10 +119,6 @@ func find_nearest_enemy(angle_threshold_deg:float=45,max_distance:float=10):
             if abs(angle)<angle_threshold:
                 var distance=global_transform.origin.distance_to(other.global_transform.origin)
                 if distance<nearest_distance:
-
-
-
-
                     nearest_distance=distance
                     nearest_enemy=other
                     enemy_angle=angle
