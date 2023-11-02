@@ -18,8 +18,8 @@ func tick():
 
     input_move.y=0
     var move_speed=chara.speed*move_speed_multiplier if can_move_while_guarding else 0.0
-    if input_lock_on_target:
-        look_vector=input_lock_on_target.global_position-chara.global_position
+    if input_target:
+        look_vector=input_target.global_position-chara.global_position
         move_vector=move_speed*input_move
     else:
         look_vector=chara.input_look

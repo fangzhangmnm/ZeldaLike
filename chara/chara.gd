@@ -41,11 +41,12 @@ enum InputAction{NONE,JUMP,ATTACK,DASH,GUARD}
 var input_look:Vector3=Vector3.ZERO
 var input_move:Vector3=Vector3.ZERO
 var input_action_buffed:InputAction=InputAction.NONE
+var input_dash_hold:bool=false
 var input_guard_hold:bool=false
-var input_lock_on_target:Node3D=null: # todo move it to perception class
-    get:return input_lock_on_target if is_instance_valid(input_lock_on_target) else null
-    set(value):input_lock_on_target=value
 var input_knockback:bool=false
+var input_target:Node3D:
+    get:return input_target if is_instance_valid(input_target) else null
+    set(value):input_target=value
 
 
 var is_invulnerable:bool=false

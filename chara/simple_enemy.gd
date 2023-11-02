@@ -32,7 +32,7 @@ func mainloop():
         while player_dist()>3:
             chara.input_move=(player.global_position-chara.global_position).normalized()
             await wait_time(0.1)
-        chara.input_lock_on_target=player
+        chara.input_target=player
         while not player_in_face():
             chara.input_move=(player.global_position-chara.global_position).normalized()*.5
             await wait_time(0.1)
@@ -44,6 +44,6 @@ func mainloop():
             if player_in_face():
                 chara.input_action_buffed=chara.InputAction.ATTACK
                 await wait_time(1.5)
-        chara.input_lock_on_target=null
+        chara.input_target=null
 
 

@@ -69,9 +69,9 @@ var input_action_buffed:Chara.InputAction:
 var input_guard_hold:bool:
     get:return chara.input_guard_hold
     set(value):chara.input_guard_hold=value
-var input_lock_on_target:Node3D:
-    get:return chara.input_lock_on_target
-    set(value):chara.input_lock_on_target=value
+var input_target:Node3D:
+    get:return chara.input_target
+    set(value):chara.input_target=value
 
 # common conditional variables shared by the inherited states
 

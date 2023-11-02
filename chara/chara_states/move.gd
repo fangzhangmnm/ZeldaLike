@@ -1,6 +1,7 @@
 @tool
 extends CharaState
 
+@export var dash_speed_multiplier:float=1.5
 @export var anim_name_left:String
 @export var anim_name_right:String
 @export var anim_name_back:String
@@ -12,13 +13,17 @@ func tick():
     var look_vector:Vector3 = Vector3.ZERO
     var move_vector:Vector3 = Vector3.ZERO
 
+    var speed=chara.speed
+    if chara.input_dash_hold:
+        speed*=dash_speed_multiplier
+
     input_move.y=0
-    if input_lock_on_target:
-        look_vector=input_lock_on_target.global_position-chara.global_position
-        move_vector=chara.speed*input_move
+    if input_target:
+        look_vector=input_target.global_position-chara.global_position
+        move_vector=speed*input_move
     else:
         look_vector=input_move
-        move_vector=chara.forward*chara.speed*input_move.length()
+        move_vector=chara.forward*speed*input_move.length()
 
     chara.rotate_to(look_vector)
     chara.process_grounded_movement(move_vector)
