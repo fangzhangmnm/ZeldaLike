@@ -8,7 +8,11 @@ extends Node
 enum Tick_Behavior{PROCESS,PHYSICS_PROCESS,EXTERNAL}
 @export var tick_behavior:Tick_Behavior=Tick_Behavior.PHYSICS_PROCESS
 
+@export var debug_log_enter:bool=false
+@export var debug_log_current_path:bool=false
+
 var delta:float=0.0 #time since last tick
+var current_execution_path=[]
 
 
 func _ready():
@@ -16,8 +20,11 @@ func _ready():
     root._reset()
 
 func tick(_delta):
+    current_execution_path.clear()
     delta=_delta
-    root._tick()
+    var result=root._tick()
+    if debug_log_current_path:
+        print("BehaviorTree: "+"->".join(current_execution_path)+":"+BehaviorNode.Result.keys()[result])
 
 func _process(_delta):
     if tick_behavior==Tick_Behavior.PROCESS:

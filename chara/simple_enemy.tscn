@@ -1,11 +1,14 @@
-[gd_scene load_steps=6 format=3 uid="uid://1rub37identf"]
+[gd_scene load_steps=9 format=3 uid="uid://1rub37identf"]
 
 [ext_resource type="PackedScene" uid="uid://cvvyqtf4ncg8d" path="res://chara/chara.tscn" id="1_4gcbb"]
-[ext_resource type="Script" path="res://chara/simple_enemy.gd" id="2_rap8a"]
-[ext_resource type="Script" path="res://chara/behavior_tree/behavior_tree.gd" id="2_t2yaq"]
-[ext_resource type="Script" path="res://chara/behavior_tree/behavior_node.gd" id="3_osurb"]
+[ext_resource type="Script" path="res://chara/chara_behaviors/_chara_behavior_tree.gd" id="2_20x4f"]
+[ext_resource type="Script" path="res://chara/behavior_tree/behavior_selector.gd" id="3_0883p"]
+[ext_resource type="Script" path="res://chara/behavior_tree/behavior_sequence.gd" id="4_op0sq"]
+[ext_resource type="Script" path="res://chara/chara_behaviors/find_enemy.gd" id="5_xjgwh"]
+[ext_resource type="Script" path="res://chara/chara_behaviors/approach_target.gd" id="7_gje01"]
+[ext_resource type="Script" path="res://chara/chara_behaviors/perform_action.gd" id="7_pahtk"]
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_6wpnm"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_4p3y1"]
 viewport_path = NodePath("HealthBar3D/SubViewport")
 
 [node name="Enemy" instance=ExtResource("1_4gcbb")]
@@ -13,49 +16,47 @@ speed = 4.0
 faction = "enemy"
 
 [node name="CharaBehaviorTree" type="Node" parent="." index="1"]
-script = ExtResource("2_t2yaq")
+script = ExtResource("2_20x4f")
+debug_log_current_path = true
 
-[node name="Sequence" type="Node" parent="CharaBehaviorTree" index="0"]
-script = ExtResource("3_osurb")
-type = 2
+[node name="Sequence*" type="Node" parent="CharaBehaviorTree" index="0"]
+script = ExtResource("4_op0sq")
+stateful = true
 
-[node name="1H_Sword_Offhand" parent="Knight/Rig/Skeleton3D" index="0"]
-transform = Transform3D(2.94743e-07, 0.262865, 0.964832, 0.999999, -3.84623e-07, 8.06648e-07, 9.15486e-07, 0.964832, -0.262864, 0.512239, 0.636706, -0.00210755)
+[node name="find_enemy" type="Node" parent="CharaBehaviorTree/Sequence*" index="0"]
+script = ExtResource("5_xjgwh")
 
-[node name="Badge_Shield" parent="Knight/Rig/Skeleton3D" index="1"]
-transform = Transform3D(3.17165e-07, 0.262865, 0.964832, 0.999999, -2.91981e-06, 1.47411e-06, 3.53697e-06, 0.964832, -0.262864, 0.662642, 0.636706, -0.0430841)
+[node name="Yell" type="Node" parent="CharaBehaviorTree/Sequence*" index="1"]
+script = ExtResource("7_pahtk")
+action_state_name = "Yell"
+need_towards_target = null
+reset_on_success = true
 
-[node name="Rectangle_Shield" parent="Knight/Rig/Skeleton3D" index="2"]
-transform = Transform3D(3.17165e-07, 0.262865, 0.964832, 0.999999, -2.91981e-06, 1.47411e-06, 3.53697e-06, 0.964832, -0.262864, 0.662642, 0.636706, -0.0430841)
+[node name="approach_target" type="Node" parent="CharaBehaviorTree/Sequence*" index="2"]
+script = ExtResource("7_gje01")
+min_distance = 2.0
 
-[node name="Round_Shield" parent="Knight/Rig/Skeleton3D" index="3"]
-transform = Transform3D(3.17165e-07, 0.262865, 0.964832, 0.999999, -2.91981e-06, 1.47411e-06, 3.53697e-06, 0.964832, -0.262864, 0.662642, 0.636706, -0.0430841)
+[node name="Selector" type="Node" parent="CharaBehaviorTree/Sequence*/approach_target" index="0"]
+script = ExtResource("3_0883p")
 
-[node name="Spike_Shield" parent="Knight/Rig/Skeleton3D" index="4"]
-transform = Transform3D(3.17165e-07, 0.262865, 0.964832, 0.999999, -2.91981e-06, 1.47411e-06, 3.53697e-06, 0.964832, -0.262864, 0.662642, 0.636706, -0.0430841)
+[node name="AttackSliceDiagonal" type="Node" parent="CharaBehaviorTree/Sequence*/approach_target/Selector" index="0"]
+script = ExtResource("7_pahtk")
+action_state_name = "AttackSliceDiagonal"
+need_towards_target = null
+reset_on_success = true
 
-[node name="1H_Sword" parent="Knight/Rig/Skeleton3D" index="5"]
-transform = Transform3D(-9.98167e-09, -0.149894, 0.988702, 0.999999, -9.50868e-07, -1.13249e-06, 1.42471e-06, 0.988701, 0.149893, -0.496053, 0.64103, 0.139528)
+[node name="approach_target" type="Node" parent="CharaBehaviorTree/Sequence*/approach_target/Selector" index="1"]
+script = ExtResource("7_gje01")
+speed_multiplier = 0.5
+
+[node name="Yell" parent="CharaStateMachine" index="1"]
+anim_time = 1.0
 
 [node name="CollisionShape3D" parent="Knight/Rig/Skeleton3D/1H_Sword/1H_Sword/HitBox" index="0"]
 transform = Transform3D(1, 0, 1.1176e-08, -7.45058e-09, 1, 5.96046e-08, -1.49012e-08, 4.47035e-08, 1, 0, 0.791278, 5.96046e-08)
 
-[node name="2H_Sword" parent="Knight/Rig/Skeleton3D" index="6"]
-transform = Transform3D(-2.57213e-08, -0.149894, 0.988702, 0.999999, -9.65599e-07, -1.1188e-06, 1.43722e-06, 0.988701, 0.149893, -0.496053, 0.64103, 0.139528)
-
-[node name="Knight_Helmet" parent="Knight/Rig/Skeleton3D" index="7"]
-transform = Transform3D(0.99972, -1.40145e-09, 0.0236468, 1.39343e-09, 1, 3.55687e-10, -0.0236468, -3.22638e-10, 0.99972, 4.69869e-07, 1.20229, -1.19779e-07)
-
-[node name="Knight_Cape" parent="Knight/Rig/Skeleton3D" index="8"]
-transform = Transform3D(0.996275, -5.14962e-09, 0.0862354, 5.13044e-09, 1, 4.44078e-10, -0.0862354, 1.47756e-15, 0.996275, -1.63022e-08, 1.20229, -1.40136e-07)
-
 [node name="Knight_Body" parent="Knight/Rig/Skeleton3D" index="11"]
 transform = Transform3D(1, 0, 1.42109e-14, 0, 1, 0, -1.42109e-14, 0, 1, 0, 0, 0)
 
-[node name="AI" type="Node" parent="." index="4"]
-script = ExtResource("2_rap8a")
-
-[node name="Timer" type="Timer" parent="AI" index="0"]
-
 [node name="HealthBar3D" parent="." index="6"]
-texture = SubResource("ViewportTexture_6wpnm")
+texture = SubResource("ViewportTexture_4p3y1")

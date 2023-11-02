@@ -1,6 +1,7 @@
 class_name Chara
 extends CharacterBody3D
 const COLLISION_LAYER_NUMBER=10
+const GROUP_NAME="charas"
 
 @export_category("Locomotion")
 @export var speed:float=5 
@@ -30,16 +31,16 @@ var poise_recovery_delay_timer:float=0
 
 @onready var anim:CharaAnimationPlayer=%AnimationPlayer
 @onready var state_machine:CharaStateMachine=%CharaStateMachine
-var state:CharaState:
-    get:return state_machine.state
-    set(_value):assert(false,"state is read only")
-@onready var perception:CharaPerception=%CharaPerception
+@onready var perception:Perception=%Perception
+@onready var perceptible:Perceptible=%Perceptible
 
 
 # Player or AI input, will be processed by the state machine
 enum InputAction{NONE,JUMP,ATTACK,DASH,GUARD}
-var input_look:Vector3=Vector3.ZERO
-var input_move:Vector3=Vector3.ZERO
+var input_look:Vector3=Vector3.ZERO:
+    set(value):input_look=value.normalized() if value.length_squared()>0 else Vector3.ZERO
+var input_move:Vector3=Vector3.ZERO:
+    set(value):input_move=value.limit_length(1)
 var input_action_buffed:InputAction=InputAction.NONE
 var input_dash_hold:bool=false
 var input_guard_hold:bool=false
@@ -58,7 +59,11 @@ var forward:Vector3:
 var right:Vector3:
     get:return global_transform.basis.x
 @onready var delta:float=1.0/Engine.physics_ticks_per_second
-
+var state:CharaState:
+    get:return state_machine.state
+    set(_value):assert(false,"state is read only")
+func transition_to(name_or_state):
+    state_machine.transition_to(name_or_state)
 
 func can_transit_jump()->bool:
     return is_on_floor() and not is_dead()
@@ -108,13 +113,11 @@ func configure_dead(value:bool):
         $CapsuleCollider.set_deferred("disabled",false)
 
 func _ready():
-    add_to_group("chara")
+    add_to_group(GROUP_NAME)
     collision_layer=1<<COLLISION_LAYER_NUMBER
     collision_mask=(1<<COLLISION_LAYER_NUMBER)|1
 
 
-func get_facing_angle(other:Node3D):
-    return forward.angle_to(other.global_position-global_position)
 
 
 func rotate_to(_look_vector):
@@ -129,19 +132,31 @@ func process_grounded_movement(_move_vector:=Vector3.ZERO):
     move_and_slide()
 
 
-func find_nearest_enemy(angle_threshold_deg:float=45,max_distance:float=10):
-    var angle_threshold=deg_to_rad(angle_threshold_deg)
-    var nearest_enemy:Node3D=null
-    var nearest_distance:float=max_distance
-    var enemy_angle:float=0
-    for other in get_tree().get_nodes_in_group("chara"):
-        if other is Chara and not is_friendly(other):
-            var angle=get_facing_angle(other)
-            if abs(angle)<angle_threshold:
-                var distance=global_transform.origin.distance_to(other.global_transform.origin)
-                if distance<nearest_distance:
-                    nearest_distance=distance
-                    nearest_enemy=other
-                    enemy_angle=angle
-    return {chara=nearest_enemy,distance=nearest_distance,angle=enemy_angle}
+
+func distance_to(_target:Node3D,_transform:=global_transform)->float:
+    return perception.distance_to(_target,_transform)
+    
+func angle_to(_target:Node3D,_transform:=global_transform)->Vector3:
+    return perception.angle_to(_target,_transform)
+
+func angle_to_deg(_target:Node3D,_transform:=global_transform)->Vector3:
+    return perception.angle_to_deg(_target,_transform)
+
+func find_nearest_enemy():
+    var nearest=perception.find_nearest_perceived(
+        func(p):
+            return not is_friendly(p.owner) and perception.can_see(p,false)
+    )
+    if is_instance_valid(nearest): input_target = nearest.owner
+    if is_instance_valid(input_target) and "perceptible" in input_target and input_target.perceptible not in perception.perceived:
+        input_target=null
+    # printt(name,"find nearest enemy",input_target)
+
+func can_perceive(_target:Node3D)->bool:
+    if not is_instance_valid(_target):return false
+    if _target is Perceptible:return _target in perception.perceived
+    elif "perceptible" in _target:return _target.perceptible in perception.perceived
+    else:return false
+
+    
 

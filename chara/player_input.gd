@@ -37,7 +37,7 @@ func _physics_process(_delta):
             chara.input_target=null
             camera.secondary_target=null
         else:
-            chara.input_target=chara.find_nearest_enemy().chara
+            chara.find_nearest_enemy()
             camera.secondary_target=chara.input_target
 
     if chara.input_target:

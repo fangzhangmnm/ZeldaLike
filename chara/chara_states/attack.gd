@@ -102,11 +102,11 @@ func enter(_msg := {}):
     already_attacked_charas.clear()
     is_attack_enabled=false
     is_blocked=false
-    if align_enemy: # TODO Refactory
-        var response=chara.find_nearest_enemy(align_enemy_threshold_deg)
-        if response.chara and response.distance<align_enemy_threshold_distance:
-            chara.look_at(response.chara.global_position)
-            chara.rotation_degrees.y+=align_enemy_rotation_bias
+    if align_enemy and chara.input_target:
+        if chara.distance_to(chara.input_target)<align_enemy_threshold_distance:
+            if abs(chara.angle_to(chara.input_target).y)<align_enemy_threshold_deg:
+                chara.look_at(input_target.global_position)
+                chara.rotation_degrees.y+=align_enemy_rotation_bias
     
 
 func exit():

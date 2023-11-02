@@ -25,6 +25,8 @@ func player_angle_deg():
 func player_in_face():
     return player_angle_deg()<30 and player_dist()<1.5
 
+
+
 func mainloop():
     while true:
         while player_dist()>100:

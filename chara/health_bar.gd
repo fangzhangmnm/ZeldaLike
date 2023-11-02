@@ -29,5 +29,6 @@ func _physics_process(delta):
     if sprite and subviewport:
         sprite.visible=chara.current_health>0
         sprite.texture= subviewport.get_texture()
+        
     
 
