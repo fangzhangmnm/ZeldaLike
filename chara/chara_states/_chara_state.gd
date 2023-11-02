@@ -10,14 +10,15 @@ extends State
 @export var start_sound:AudioStream=null
 @export var audio_source:AudioStreamPlayer3D=null
 
-@export_category("Default State Behavior")
-@export var can_move:bool=true
-@export var will_fall:bool=true
-@export var can_dash:bool=true
-@export var can_jump:bool=true
-@export var can_attack:bool=true
-@export var can_guard:bool=true
-@export var can_be_knockback:bool=true
+@export_category("Default State Transition Behavior")
+@export var wait_for_input_unlock:bool=false
+@export var can_transit_move:bool=true
+@export var can_transit_dash:bool=true
+@export var can_transit_jump:bool=true
+@export var can_transit_attack:bool=true
+@export var can_transit_guard:bool=true
+@export var can_transit_falling:bool=true
+@export var can_transit_knockback:bool=true
 @export var can_be_hit:bool=true
 
 @export_category("Default State Override")
@@ -28,8 +29,8 @@ var idle_state:CharaState:
 var move_state:CharaState:
     get:return move_state_override if move_state_override else state_machine.move_state
 @export var fall_state_override:CharaState=null
-var fall_state:CharaState:
-    get:return fall_state_override if fall_state_override else state_machine.fall_state
+var falling_state:CharaState:
+    get:return fall_state_override if fall_state_override else state_machine.falling_state
 @export var dash_state_override:CharaState=null
 var dash_state:CharaState:
     get:return dash_state_override if dash_state_override else state_machine.dash_state
@@ -56,6 +57,9 @@ var dead_state:CharaState:
 
 @onready var chara:Chara=owner as Chara
 
+var input_look:Vector3:
+    get:return chara.input_look
+    set(value):chara.input_look=value
 var input_move:Vector3:
     get:return chara.input_move
     set(value):chara.input_move=value
@@ -71,41 +75,52 @@ var input_lock_on_target:Node3D:
 
 # common conditional variables shared by the inherited states
 
-var canceling_enabled:bool=false
+var input_unlocked:bool=false
 var is_anim_finished:bool=false
 
 # common routines shared by the inherited states
 
-func process_input()->bool:
-    if can_dash and input_action_buffed==Chara.InputAction.DASH:
+func process_input_transition()->bool:
+    if not input_unlocked:return false
+    if can_transit_dash and input_action_buffed==Chara.InputAction.DASH:
         input_action_buffed=Chara.InputAction.NONE
         transition_to(dash_state);return true
-    if can_attack and input_action_buffed==Chara.InputAction.ATTACK:
+    if can_transit_attack and input_action_buffed==Chara.InputAction.ATTACK:
         input_action_buffed=Chara.InputAction.NONE
         transition_to(attack_state);return true
-    if can_guard and input_guard_hold and self!=guard_state:
+    if can_transit_guard and input_guard_hold and self!=guard_state:
         input_action_buffed=Chara.InputAction.NONE
         transition_to(guard_state);return true
-    if can_jump and input_action_buffed==Chara.InputAction.JUMP and chara.can_jump():
+    if can_transit_jump and input_action_buffed==Chara.InputAction.JUMP and chara.can_transit_jump():
         input_action_buffed=Chara.InputAction.NONE
         transition_to(jump_state,{do_jump=true});return true
-    if can_move and input_move.length()>0 and self!=move_state and self!=jump_state:
+    if can_transit_move and input_move.length()>0 and self!=move_state and self!=jump_state:
         transition_to(move_state);return true
     return false
 
-
-func detect_falling()->bool:
-    if will_fall and not chara.is_on_floor() and self!=fall_state:
-        transition_to(fall_state);return true
+func process_falling_transition()->bool:
+    if can_transit_falling and not chara.is_on_floor() and self!=falling_state:
+        transition_to(falling_state);return true
     return false
 
-func on_knockback():
-    if can_be_knockback:
-        if chara.current_poise<=0:
-            chara.poise_recovery_delay_timer=.2
-            transition_to(stagger_state)
-        else:
-            transition_to(knockback_state)
+func process_knockback_transition()->bool:
+    if chara.input_knockback:
+        chara.input_knockback=false
+        if can_transit_knockback:
+            if chara.current_poise<=0:
+                chara.poise_recovery_delay_timer=.2
+                transition_to(stagger_state);return true
+            else:
+                transition_to(knockback_state);return true
+    return false
+
+func process_default_transitions()->bool:
+    if process_knockback_transition():return true
+    if process_falling_transition():return true
+    if process_input_transition():return true
+    return false
+
+
 
 # common routines for tick, enter, exit. Remember to call super() if you override them
 
@@ -114,9 +129,9 @@ func tick():
         is_anim_finished=true
 
 func enter(_msg:={}):
-    canceling_enabled=false
+    input_unlocked=not wait_for_input_unlock
     is_anim_finished=false
-    chara.anim.anim_enable_canceling.connect(_on_enable_canceling)
+    chara.anim.anim_unlock_input.connect(_on_enable_canceling)
     chara.anim.anim_finished.connect(_on_anim_finished)
     
     if audio_source and start_sound:
@@ -135,7 +150,7 @@ func enter(_msg:={}):
 
 func exit():
     chara.anim.anim_finished.disconnect(_on_anim_finished)
-    chara.anim.anim_enable_canceling.disconnect(_on_enable_canceling)
+    chara.anim.anim_unlock_input.disconnect(_on_enable_canceling)
 
 # function handles
 
@@ -144,4 +159,4 @@ func _on_anim_finished():
     is_anim_finished=true
 
 func _on_enable_canceling():
-    canceling_enabled=true
+    input_unlocked=true

@@ -1,12 +1,13 @@
+@tool
 extends CharaState
 
 
 func tick()->void:
     super()
-    if detect_falling():return
-    chara.velocity=chara.get_platform_velocity()
-    chara.move_and_slide()
-    if canceling_enabled:
-        if process_input():return
+    if process_default_transitions():return
+    chara.process_grounded_movement() # TODO knock vector
     if is_anim_finished:
         transition_to(idle_state);return
+
+func _ready():
+    wait_for_input_unlock=true

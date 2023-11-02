@@ -36,21 +36,30 @@ var state:CharaState:
 @onready var perception:CharaPerception=%CharaPerception
 
 
-# Input
-enum InputAction{
-    NONE,JUMP,ATTACK,DASH,GUARD
-}
+# Player or AI input, will be processed by the state machine
+enum InputAction{NONE,JUMP,ATTACK,DASH,GUARD}
+var input_look:Vector3=Vector3.ZERO
 var input_move:Vector3=Vector3.ZERO
 var input_action_buffed:InputAction=InputAction.NONE
 var input_guard_hold:bool=false
-var input_lock_on_target:Node3D=null:
+var input_lock_on_target:Node3D=null: # todo move it to perception class
     get:return input_lock_on_target if is_instance_valid(input_lock_on_target) else null
     set(value):input_lock_on_target=value
+var input_knockback:bool=false
+
+
 var is_invulnerable:bool=false
 
 
+# Utility functions
+var forward:Vector3:
+    get:return -global_transform.basis.z
+var right:Vector3:
+    get:return global_transform.basis.x
+@onready var delta:float=1.0/Engine.physics_ticks_per_second
 
-func can_jump()->bool:
+
+func can_transit_jump()->bool:
     return is_on_floor() and not is_dead()
 
 func is_dead()->bool:
@@ -79,16 +88,16 @@ func on_hit(msg:HitMessage):
 
         if not msg.is_blocked:
             poise_recovery_delay_timer=poise_recovery_delay
-        state.on_knockback()
+        input_knockback=true
 
-func status_update(delta:float):
+func status_update(_delta:float):
     if not is_dead():
         poise_recovery_delay_timer-=delta
         if poise_recovery_delay_timer<=0:
             current_poise=max_poise
 
-func _physics_process(delta:float):
-    status_update(delta)
+func _physics_process(_delta:float):
+    status_update(_delta)
 
 func configure_dead(value:bool):
     if debug_log: printt("configure dead: ",value)
@@ -104,8 +113,19 @@ func _ready():
 
 
 func get_facing_angle(other:Node3D):
-    return (-global_transform.basis.z).angle_to(other.global_position-global_position)
+    return forward.angle_to(other.global_position-global_position)
 
+
+func rotate_to(_look_vector):
+    if abs(_look_vector.x)>0 or abs(_look_vector.z)>0:
+        var rotation_direction = Vector2(-_look_vector.z, -_look_vector.x).angle()
+        rotation.y = lerp_angle(rotation.y, rotation_direction, deg_to_rad(rotate_speed)*delta) #TODO make it linear
+
+func process_grounded_movement(_move_vector:=Vector3.ZERO):
+    _move_vector.y=0
+    velocity = velocity.lerp(get_platform_velocity()+_move_vector,traction*delta)
+    velocity.y -= gravity*delta
+    move_and_slide()
 
 
 func find_nearest_enemy(angle_threshold_deg:float=45,max_distance:float=10):

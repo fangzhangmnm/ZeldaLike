@@ -13,6 +13,7 @@ func _physics_process(_add_constant_forcedelta):
     move_vector.y=0
     move_vector=move_vector.normalized()*input_move_joystick.length()
     chara.input_move=move_vector
+    chara.input_look=-camera.global_transform.basis.z
     if Input.is_action_just_pressed("jump"):
         chara.input_action_buffed=Chara.InputAction.JUMP
     if Input.is_action_just_pressed("attack"):
@@ -30,5 +31,8 @@ func _physics_process(_add_constant_forcedelta):
         else:
             chara.input_lock_on_target=chara.find_nearest_enemy().chara
             camera.secondary_target=chara.input_lock_on_target
+
+    if chara.input_lock_on_target:
+        chara.input_look=(chara.input_lock_on_target.global_position-chara.global_position).normalized()
     
     

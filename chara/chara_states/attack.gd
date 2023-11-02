@@ -1,3 +1,4 @@
+@tool
 extends CharaState
 
 @export_category("Attack Stats")
@@ -26,25 +27,19 @@ var is_attack_enabled:bool=false
 
 func tick():
     super()
+    if process_default_transitions():return
+
     if is_jump_attack:
         if chara.is_on_floor():
-            chara.velocity=chara.get_platform_velocity()
-            chara.move_and_slide()
+            chara.process_grounded_movement()
         else:
             chara.velocity.y-=chara.gravity*delta
             chara.move_and_slide()
     else:
-        if detect_falling():return
-        chara.velocity=chara.get_platform_velocity()
-        chara.velocity+=(chara.global_transform.basis.x*move_amount.x-chara.global_transform.basis.z*move_amount.y)/anim_time
-        chara.move_and_slide()
-        # TODO align_to. also move locomotion routines to Chara class
+        chara.process_grounded_movement((chara.right*move_amount.x+chara.forward*move_amount.y)/anim_time)
 
     if is_attack_enabled:
         process_attack()
-
-    if canceling_enabled:
-        if process_input():return
 
     if is_anim_finished:
         if is_jump_attack and not chara.is_on_floor():
@@ -107,7 +102,7 @@ func enter(_msg := {}):
     already_attacked_charas.clear()
     is_attack_enabled=false
     is_blocked=false
-    if align_enemy:
+    if align_enemy: # TODO Refactory
         var response=chara.find_nearest_enemy(align_enemy_threshold_deg)
         if response.chara and response.distance<align_enemy_threshold_distance:
             chara.look_at(response.chara.global_position)
@@ -129,4 +124,8 @@ func _on_attack_start():
 
 func _on_attack_end():
     is_attack_enabled=false
+
+func _ready():
+    wait_for_input_unlock=true
+    if is_jump_attack:can_transit_falling=false
 
