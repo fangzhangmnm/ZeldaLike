@@ -65,8 +65,8 @@ func angle_to(_target:Node3D,_transform:=global_transform)->Vector3:
     var t=Transform3D(_transform);t.basis.x=t.basis.x.normalized();t.basis.y=t.basis.y.normalized();t.basis.z=t.basis.z.normalized()
     var v=global_transform.inverse()*_target.global_position
     var angle:Vector3=Vector3(
-        atan2(v.x,-v.z),
         atan2(v.y,sqrt(v.x*v.x+v.z*v.z)),
+        atan2(v.x,-v.z),
         0)
     return angle
 
@@ -76,8 +76,8 @@ func angle_to_deg(_target:Node3D,_transform:=global_transform)->Vector3:
 func in_look_angle(_target:Node3D)->bool:
     var angle=angle_to(_target)
     var angle_deg=angle*rad_to_deg(1)
-    if abs(angle_deg.x)>look_angle_deg:return false
-    if angle_deg.y<look_vertical_angle_min_deg or angle_deg.y>look_vertical_angle_max_deg:return false
+    if abs(angle_deg.y)>look_angle_deg:return false
+    if angle_deg.x<look_vertical_angle_min_deg or angle_deg.x>look_vertical_angle_max_deg:return false
     return true
 
 func find_nearest_perceived(criteria:Callable,custom_distance:Callable=distance_to)->Perceptible:

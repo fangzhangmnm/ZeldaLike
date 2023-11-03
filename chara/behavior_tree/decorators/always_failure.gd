@@ -6,9 +6,9 @@ extends BehaviorDecorator
 
 func tick():
     running_child=get_child(0)
-    var result=running_child._tick()
-    match result:
-        SUCCESS: running_child=null; return FAILURE
-        FAILURE: running_child=null; return FAILURE
+    var _result=running_child._tick()
+    match _result:
+        SUCCESS: halt_running_child_if_any(); return FAILURE
+        FAILURE: halt_running_child_if_any(); return FAILURE
         RUNNING: return RUNNING
     assert(false,"Will never reach here")

@@ -15,10 +15,10 @@ func tick():
     while current_cycle<num_cycles or forever:
         assert(running_child==null or running_child.is_running)
         running_child=get_child(0)
-        var result=running_child._tick()
-        match result:
-            SUCCESS: running_child=null; current_cycle+=1;
-            FAILURE: running_child=null; return FAILURE
+        var _result=running_child._tick()
+        match _result:
+            SUCCESS: halt_running_child_if_any(); current_cycle+=1;
+            FAILURE: halt_running_child_if_any(); return FAILURE
             RUNNING: return RUNNING
         if forever: return RUNNING # to avoid infinite loop if child always returns SUCCESS
     return SUCCESS

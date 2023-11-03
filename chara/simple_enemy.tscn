@@ -1,16 +1,115 @@
-[gd_scene load_steps=3 format=3 uid="uid://1rub37identf"]
+[gd_scene load_steps=16 format=3 uid="uid://1rub37identf"]
 
 [ext_resource type="PackedScene" uid="uid://cvvyqtf4ncg8d" path="res://chara/chara.tscn" id="1_4gcbb"]
+[ext_resource type="Script" path="res://chara/behavior_tree/behavior_tree.gd" id="2_rr0cv"]
+[ext_resource type="Script" path="res://chara/behavior_tree/compositors/sequence_reactive.gd" id="3_0sv1t"]
+[ext_resource type="Script" path="res://chara/chara_behaviors/is_alive.gd" id="4_hitwv"]
+[ext_resource type="Script" path="res://chara/behavior_tree/compositors/fallback_reactive.gd" id="5_sjpye"]
+[ext_resource type="Script" path="res://chara/behavior_tree/compositors/sequence.gd" id="5_vyedw"]
+[ext_resource type="Script" path="res://chara/chara_behaviors/found_enemy.gd" id="7_7l5hq"]
+[ext_resource type="Script" path="res://chara/chara_behaviors/perform_action.gd" id="8_32yvd"]
+[ext_resource type="Script" path="res://chara/behavior_tree/decorators/once.gd" id="8_p5tve"]
+[ext_resource type="Script" path="res://chara/chara_behaviors/approach_target.gd" id="9_d1m65"]
+[ext_resource type="Script" path="res://chara/behavior_tree/compositors/fallback.gd" id="10_cady1"]
+[ext_resource type="Script" path="res://chara/behavior_tree/decorators/always_success.gd" id="11_4p36k"]
+[ext_resource type="Script" path="res://chara/behavior_tree/decorators/repeat.gd" id="11_ki278"]
+[ext_resource type="Script" path="res://chara/behavior_tree/leafs/wait.gd" id="12_pu84d"]
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_4ylve"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_hkp6o"]
 viewport_path = NodePath("HealthBar3D/SubViewport")
 
 [node name="Enemy" instance=ExtResource("1_4gcbb")]
 speed = 4.0
+max_poise = 10
+current_poise = 10.0
 faction = "enemy"
 
 [node name="Perception" parent="." index="0"]
 hear_distance = 3.0
+
+[node name="BehaviorTree" type="Node" parent="." index="1" node_paths=PackedStringArray("actor")]
+script = ExtResource("2_rr0cv")
+restart = true
+actor = NodePath("..")
+debug_log = true
+
+[node name="SequenceReactive" type="Node" parent="BehaviorTree" index="0"]
+script = ExtResource("3_0sv1t")
+
+[node name="is_alive" type="Node" parent="BehaviorTree/SequenceReactive" index="0"]
+script = ExtResource("4_hitwv")
+
+[node name="FallbackReactive" type="Node" parent="BehaviorTree/SequenceReactive" index="1"]
+script = ExtResource("5_sjpye")
+
+[node name="find and attack" type="Node" parent="BehaviorTree/SequenceReactive/FallbackReactive" index="0"]
+script = ExtResource("5_vyedw")
+
+[node name="found enemy" type="Node" parent="BehaviorTree/SequenceReactive/FallbackReactive/find and attack" index="0"]
+script = ExtResource("7_7l5hq")
+
+[node name="BehaviorOnce" type="Node" parent="BehaviorTree/SequenceReactive/FallbackReactive/find and attack" index="1"]
+script = ExtResource("8_p5tve")
+
+[node name="Yell" type="Node" parent="BehaviorTree/SequenceReactive/FallbackReactive/find and attack/BehaviorOnce" index="0"]
+script = ExtResource("8_32yvd")
+action_state_name = "Yell"
+
+[node name="apporach enemy" type="Node" parent="BehaviorTree/SequenceReactive/FallbackReactive/find and attack" index="2"]
+script = ExtResource("9_d1m65")
+min_distance = 3.0
+
+[node name="Repeat" type="Node" parent="BehaviorTree/SequenceReactive/FallbackReactive/find and attack" index="3"]
+script = ExtResource("11_ki278")
+forever = true
+
+[node name="FallbackReactive" type="Node" parent="BehaviorTree/SequenceReactive/FallbackReactive/find and attack/Repeat" index="0"]
+script = ExtResource("10_cady1")
+
+[node name="Sequence" type="Node" parent="BehaviorTree/SequenceReactive/FallbackReactive/find and attack/Repeat/FallbackReactive" index="0"]
+script = ExtResource("5_vyedw")
+
+[node name="Attack1" type="Node" parent="BehaviorTree/SequenceReactive/FallbackReactive/find and attack/Repeat/FallbackReactive/Sequence" index="0"]
+script = ExtResource("8_32yvd")
+action_state_name = "AttackSliceDiagonal"
+finish_on = 1
+need_towards_target = true
+
+[node name="BehaviorWait" type="Node" parent="BehaviorTree/SequenceReactive/FallbackReactive/find and attack/Repeat/FallbackReactive/Sequence" index="1"]
+script = ExtResource("12_pu84d")
+wait_time = 0.1
+
+[node name="Attack2" type="Node" parent="BehaviorTree/SequenceReactive/FallbackReactive/find and attack/Repeat/FallbackReactive/Sequence" index="2"]
+script = ExtResource("8_32yvd")
+action_state_name = "AttackStab"
+finish_on = 1
+need_towards_target = true
+
+[node name="BehaviorWait2" type="Node" parent="BehaviorTree/SequenceReactive/FallbackReactive/find and attack/Repeat/FallbackReactive/Sequence" index="3"]
+script = ExtResource("12_pu84d")
+wait_time = 0.1
+
+[node name="Attack3" type="Node" parent="BehaviorTree/SequenceReactive/FallbackReactive/find and attack/Repeat/FallbackReactive/Sequence" index="4"]
+script = ExtResource("8_32yvd")
+action_state_name = "AttackChop"
+finish_on = 1
+need_towards_target = true
+
+[node name="apporach enemy" type="Node" parent="BehaviorTree/SequenceReactive/FallbackReactive/find and attack/Repeat/FallbackReactive" index="1"]
+script = ExtResource("9_d1m65")
+speed_multiplier = 0.5
+
+[node name="Repeat" type="Node" parent="BehaviorTree/SequenceReactive/FallbackReactive" index="1"]
+script = ExtResource("11_ki278")
+num_cycles = 1
+forever = true
+
+[node name="AlwaysSuccess" type="Node" parent="BehaviorTree/SequenceReactive/FallbackReactive/Repeat" index="0"]
+script = ExtResource("11_4p36k")
+
+[node name="Idle" type="Node" parent="BehaviorTree/SequenceReactive/FallbackReactive/Repeat/AlwaysSuccess" index="0"]
+script = ExtResource("8_32yvd")
+action_state_name = "Idle"
 
 [node name="Yell" parent="CharaStateMachine" index="1"]
 anim_time = 1.0
@@ -21,5 +120,5 @@ transform = Transform3D(1, 0, 1.1176e-08, -7.45058e-09, 1, 5.96046e-08, -1.49012
 [node name="Knight_Body" parent="Knight/Rig/Skeleton3D" index="11"]
 transform = Transform3D(1, 0, 1.42109e-14, 0, 1, 0, -1.42109e-14, 0, 1, 0, 0, 0)
 
-[node name="HealthBar3D" parent="." index="5"]
-texture = SubResource("ViewportTexture_4ylve")
+[node name="HealthBar3D" parent="." index="6"]
+texture = SubResource("ViewportTexture_hkp6o")

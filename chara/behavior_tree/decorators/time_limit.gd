@@ -17,6 +17,6 @@ func tick():
     else:
         time_elapsed+=delta
         running_child=get_child(0)
-        var result=running_child._tick()
-        return result
+        var _result=running_child._tick()
+        return _result
 

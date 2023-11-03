@@ -7,11 +7,11 @@ var persistent_result=RUNNING
 func tick():
     if persistent_result!=RUNNING:return persistent_result
     running_child=get_child(0)
-    var result=running_child._tick()
-    persistent_result=result
-    match result:
-        SUCCESS: running_child=null; return SUCCESS
-        FAILURE: running_child=null; return FAILURE
+    var _result=running_child._tick()
+    persistent_result=_result
+    match _result:
+        SUCCESS: halt_running_child_if_any(); return SUCCESS
+        FAILURE: halt_running_child_if_any(); return FAILURE
         RUNNING: return RUNNING
     assert(false,"Will never reach here")
 

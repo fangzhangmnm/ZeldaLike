@@ -8,11 +8,12 @@ func tick():
     var success_count = 0
     for idx in range(shuffled_children.size()):
         var child = shuffled_children[idx]
-        var result = child._tick()
-        match result:
+        var _result = child._tick()
+        match _result:
             SUCCESS: success_count+=1; running_children.erase(child); continue
             FAILURE: halt_running_children_if_any(); return FAILURE
             RUNNING: running_children.append(child); continue
-    if success_count == shuffled_children.size():return SUCCESS
+    if success_count == shuffled_children.size():
+        halt_running_children_if_any(); return SUCCESS
     else: return RUNNING
 

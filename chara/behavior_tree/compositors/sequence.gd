@@ -6,14 +6,14 @@ extends BehaviorCompositor
 func tick():
     while next_child_index<shuffled_children.size():
         assert(running_child==null or running_child.is_running)
-        assert(running_child==null or running_child==shuffled_children[next_child_index-1])
+        assert(running_child==null or running_child==shuffled_children[next_child_index])
         running_child = shuffled_children[next_child_index]
-        var result = running_child._tick()
-        match result:
-            SUCCESS: running_child=null; next_child_index+=1
-            FAILURE: running_child=null; return FAILURE
+        var _result = running_child._tick()
+        match _result:
+            SUCCESS: halt_running_child_if_any(); next_child_index+=1
+            FAILURE: halt_running_child_if_any(); return FAILURE
             RUNNING: return RUNNING
-    return SUCCESS
+    halt_running_child_if_any(); return SUCCESS
 
 
 

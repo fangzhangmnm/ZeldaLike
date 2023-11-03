@@ -16,10 +16,10 @@ func tick():
         return RUNNING
     else:
         running_child=get_child(0)
-        var result=running_child._tick()
-        match result:
-            SUCCESS: return SUCCESS
-            FAILURE: return FAILURE
+        var _result=running_child._tick()
+        match _result:
+            SUCCESS: halt_running_child_if_any(); return SUCCESS
+            FAILURE: halt_running_child_if_any(); return FAILURE
             RUNNING: count_down=delay_time; return RUNNING
         assert(false,"Will never reach here")
 

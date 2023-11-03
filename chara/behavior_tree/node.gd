@@ -15,11 +15,14 @@ var delta:float:
     get:return behavior_tree.delta
 var blackboard:Node:
     get:return behavior_tree.blackboard
-
+var actor:Node:
+    get:return behavior_tree.actor
 var is_running:bool=false
+var result:Result=RUNNING
 
-func start()->Result:
-    return RUNNING
+
+func start()->void:
+    pass
 
 func tick()->Result:
     return SUCCESS
@@ -34,12 +37,11 @@ func cleanup()->void: # finish or interrupt
     pass
 
 func _tick()->Result:
-    var result=RUNNING
+    behavior_tree.execution_path.push_back(self)
     if not is_running:
         is_running=true
-        result=start()
-    if result==RUNNING:
-        result=tick()
+        start()
+    result=tick()
     if result!=RUNNING:
         is_running=false
         finish()
