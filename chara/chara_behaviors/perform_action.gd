@@ -22,7 +22,6 @@ func enter():
     chara.perform_action(action_state_name,false)
     return RUNNING
 
-
 func tick():
     if chara.state.name==action_state_name:
         if finish_on==FinishBehavior.INPUT_UNLOCK and chara.is_input_unlocked():

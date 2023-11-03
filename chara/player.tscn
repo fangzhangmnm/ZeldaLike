@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://cvvyqtf4ncg8d" path="res://chara/chara.tscn" id="1_wa68d"]
 [ext_resource type="Script" path="res://chara/player_input.gd" id="2_arguv"]
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_mtnux"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_14xdk"]
 viewport_path = NodePath("HealthBar3D/SubViewport")
 
 [node name="Player" instance=ExtResource("1_wa68d")]
@@ -16,4 +16,4 @@ hear_distance = 3.0
 script = ExtResource("2_arguv")
 
 [node name="HealthBar3D" parent="." index="6"]
-texture = SubResource("ViewportTexture_mtnux")
+texture = SubResource("ViewportTexture_14xdk")

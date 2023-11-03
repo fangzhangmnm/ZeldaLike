@@ -21,14 +21,6 @@ ambient_light_source = 3
 transform = Transform3D(-0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, -0.965926, 0.0520545, 0, -13.9643)
 debug_log = true
 
-[node name="Enemy2" parent="." groups=["enemy"] instance=ExtResource("1_38s6b")]
-transform = Transform3D(-0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, -0.965926, 12.0127, 0, -18.7928)
-debug_log = true
-
-[node name="Enemy3" parent="." groups=["enemy"] instance=ExtResource("1_38s6b")]
-transform = Transform3D(-0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, -0.965926, 23.9415, 0, -6.63481)
-debug_log = true
-
 [node name="Player" parent="." groups=["player"] instance=ExtResource("2_twb8q")]
 unique_name_in_owner = true
 debug_revive = true
