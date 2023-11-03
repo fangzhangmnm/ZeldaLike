@@ -1,3 +1,4 @@
+@icon('./icons/condition.svg')
 class_name BehaviorCondition
 extends BehaviorNode
 

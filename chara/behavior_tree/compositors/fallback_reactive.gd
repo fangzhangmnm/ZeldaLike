@@ -1,3 +1,4 @@
+@icon('../icons/selector_reactive.svg')
 class_name BehaviorFallbackReactive
 extends BehaviorCompositor
 

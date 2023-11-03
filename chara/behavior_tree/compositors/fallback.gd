@@ -1,5 +1,6 @@
 # Fallback Nodes execute their children in order until one succeeds.
 
+@icon('../icons/selector.svg')
 class_name BehaviorFallback
 extends BehaviorCompositor
 

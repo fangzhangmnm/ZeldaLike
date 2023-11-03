@@ -1,5 +1,6 @@
 # FallbackParallel nodes execute their children in parallel and succeed if any child succeed, 
 # then halt the other children.
+@icon('../icons/selector.svg')
 class_name BehaviorFallbackParallel
 extends BehaviorCompositorParallel
 

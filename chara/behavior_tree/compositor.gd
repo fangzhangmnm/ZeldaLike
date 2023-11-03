@@ -1,5 +1,6 @@
 # A Composite node controls the flow of execution of its children in a specific manner, 
 # with only one child being executed at any one time.
+@icon('./icons/category_composite.svg')
 class_name BehaviorCompositor
 extends BehaviorNode
 

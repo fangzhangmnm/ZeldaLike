@@ -1,4 +1,5 @@
 # A Decorator node controls the flow of execution of its child in a specific manner
+@icon('./icons/category_decorator.svg')
 class_name BehaviorDecorator
 extends BehaviorNode
 

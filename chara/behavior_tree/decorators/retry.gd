@@ -1,4 +1,5 @@
 # Repeats the child up until success
+@icon('../icons/limiter.svg')
 class_name BehaviorRetry
 extends BehaviorDecorator
 

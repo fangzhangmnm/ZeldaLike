@@ -1,4 +1,5 @@
 # SequenceParallel nodes execute their children in parallel and fail if any child fails.
+@icon('../icons/sequence.svg')
 class_name BehaviorSequenceParallel
 extends BehaviorCompositorParallel
 

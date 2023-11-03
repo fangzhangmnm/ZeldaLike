@@ -1,3 +1,4 @@
+@icon('../icons/sequence_random.svg')
 class_name BehaviorSequenceRandom
 extends BehaviorSequence
 

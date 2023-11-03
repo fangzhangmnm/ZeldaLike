@@ -1,3 +1,4 @@
+@icon('../icons/selector_random.svg')
 class_name BehaviorFallbackRandom
 extends BehaviorFallback
 func start():

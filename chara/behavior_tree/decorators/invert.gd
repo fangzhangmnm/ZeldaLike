@@ -1,4 +1,5 @@
 # swap the SUCCESS and FAILURE results of the child node
+@icon('../icons/inverter.svg')
 class_name BehaviorInvert
 extends BehaviorDecorator
 

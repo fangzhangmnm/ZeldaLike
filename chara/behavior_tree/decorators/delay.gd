@@ -11,12 +11,15 @@ func start():
     count_down=0
 
 func tick():
-    if count_down>0: count_down-=delta; return RUNNING
-    running_child=get_child(0)
-    var result=running_child._tick()
-    match result:
-        SUCCESS: return SUCCESS
-        FAILURE: return FAILURE
-        RUNNING: count_down=delay_time; return RUNNING
-    assert(false,"Will never reach here")
+    if count_down>0: 
+        count_down-=delta
+        return RUNNING
+    else:
+        running_child=get_child(0)
+        var result=running_child._tick()
+        match result:
+            SUCCESS: return SUCCESS
+            FAILURE: return FAILURE
+            RUNNING: count_down=delay_time; return RUNNING
+        assert(false,"Will never reach here")
 

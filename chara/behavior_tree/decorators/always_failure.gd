@@ -1,4 +1,5 @@
 # always return FAILURE or RUNNING
+@icon('../icons/failer.svg')
 class_name BehaviorAlwaysFailure
 extends BehaviorDecorator
 

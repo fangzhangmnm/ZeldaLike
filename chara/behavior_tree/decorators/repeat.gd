@@ -1,4 +1,5 @@
 # Repeats the child up to num_cycle times as long as the child returns SUCCESS
+@icon('../icons/limiter.svg')
 class_name BehaviorRepeat
 extends BehaviorDecorator
 

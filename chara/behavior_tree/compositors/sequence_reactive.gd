@@ -1,3 +1,4 @@
+@icon('../icons/sequence_reactive.svg')
 class_name BehaviorSequenceReactive
 extends BehaviorCompositor
 

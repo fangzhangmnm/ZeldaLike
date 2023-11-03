@@ -1,3 +1,4 @@
+@icon('./icons/tree.svg')
 class_name BehaviorTree
 extends Node
 

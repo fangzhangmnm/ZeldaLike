@@ -1,4 +1,5 @@
 # Sequence nodes execute their children in order and fail if any child fails.
+@icon('../icons/sequence.svg')
 class_name BehaviorSequence
 extends BehaviorCompositor
 

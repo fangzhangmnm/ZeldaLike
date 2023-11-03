@@ -1,3 +1,4 @@
+@icon('./icons/category_bt.svg')
 class_name BehaviorNode
 extends Node
 

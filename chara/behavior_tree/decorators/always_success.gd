@@ -1,4 +1,5 @@
 # always return SUCCESS or RUNNING
+@icon('../icons/succeeder.svg')
 class_name BehaviorAlwaysSuccess
 extends BehaviorDecorator
 

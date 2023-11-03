@@ -1,3 +1,4 @@
+@icon('../icons/sequence.svg')
 class_name BehaviorSequenceWithMemory
 extends BehaviorCompositor
 
