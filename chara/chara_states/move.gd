@@ -47,6 +47,11 @@ func is_moving()->bool:
 func enter(_msg := {}):
     super(_msg)
     chara.anim.play(anim_name)
+    chara.perceptible.noise_strength=1
+
+func exit():
+    chara.perceptible.noise_strength=0
+    super()
 
 func _ready():
     can_transit_move=false

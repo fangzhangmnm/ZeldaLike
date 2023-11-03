@@ -97,6 +97,7 @@ func process_attack_hit(hurt:HurtBox):
 
 func enter(_msg := {}):
     super(_msg)
+    chara.perceptible.noise_strength=1
     chara.anim.anim_attack_start.connect(_on_attack_start)
     chara.anim.anim_attack_end.connect(_on_attack_end)
     already_attacked_charas.clear()
@@ -110,6 +111,7 @@ func enter(_msg := {}):
     
 
 func exit():
+    chara.perceptible.noise_strength=0
     chara.anim.anim_attack_start.disconnect(_on_attack_start)
     chara.anim.anim_attack_end.disconnect(_on_attack_end)
     super()

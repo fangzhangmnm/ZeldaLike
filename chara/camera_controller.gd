@@ -12,7 +12,7 @@ extends Node3D
 @export var follow_damping=4
 @export var secondary_target: Node3D
 @export var secondary_target_offset: Vector3=Vector3(0, 1.8, 0)
-@export var secondary_target_screen_offset: Vector3=Vector3(20, -30, 0)
+@export var secondary_target_screen_offset: Vector3=Vector3(-20, -30, 0)
 
 
 @export_group("Zoom")

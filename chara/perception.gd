@@ -15,7 +15,7 @@ enum Tick_Behavior{PHYSICS_PROCESS,EXTERNAL}
 @export var look_angle_deg:float=45
 @export var look_vertical_angle_min_deg=-45
 @export var look_vertical_angle_max_deg=45
-@export var hear_distance:float=2
+@export var hear_distance:float=5
 @export var sense_distance:float=0
 
 

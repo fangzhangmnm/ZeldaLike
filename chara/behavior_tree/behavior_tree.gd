@@ -23,7 +23,7 @@ func tick(_delta):
     current_execution_path.clear()
     delta=_delta
     var result=root._tick()
-    if debug_log_current_path:
+    if debug_log_current_path and (not "debug_log" in owner or owner.debug_log):
         print("BehaviorTree: "+"->".join(current_execution_path)+":"+BehaviorNode.Result.keys()[result])
 
 func _process(_delta):

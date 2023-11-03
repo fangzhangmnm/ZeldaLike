@@ -20,12 +20,14 @@ func _on_invulnerability_end():
 
 func enter(_msg := {}):
     super(_msg)
+    chara.perceptible.noise_strength=1
     chara.anim.anim_invulnerability_start.connect(_on_invulnerability_start)
     chara.anim.anim_invulnerability_end.connect(_on_invulnerability_end)
     if chara.input_move.length()>0:chara.look_at(chara.global_position+chara.input_move)
 
         
 func exit():
+    chara.perceptible.noise_strength=0
     chara.anim.anim_invulnerability_start.disconnect(_on_invulnerability_start)
     chara.anim.anim_invulnerability_end.disconnect(_on_invulnerability_end)
     super()

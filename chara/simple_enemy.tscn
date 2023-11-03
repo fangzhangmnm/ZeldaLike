@@ -1,19 +1,23 @@
-[gd_scene load_steps=9 format=3 uid="uid://1rub37identf"]
+[gd_scene load_steps=10 format=3 uid="uid://1rub37identf"]
 
 [ext_resource type="PackedScene" uid="uid://cvvyqtf4ncg8d" path="res://chara/chara.tscn" id="1_4gcbb"]
 [ext_resource type="Script" path="res://chara/chara_behaviors/_chara_behavior_tree.gd" id="2_20x4f"]
 [ext_resource type="Script" path="res://chara/behavior_tree/behavior_selector.gd" id="3_0883p"]
 [ext_resource type="Script" path="res://chara/behavior_tree/behavior_sequence.gd" id="4_op0sq"]
 [ext_resource type="Script" path="res://chara/chara_behaviors/find_enemy.gd" id="5_xjgwh"]
+[ext_resource type="Script" path="res://chara/behavior_tree/behavior_repeater.gd" id="7_0isjk"]
 [ext_resource type="Script" path="res://chara/chara_behaviors/approach_target.gd" id="7_gje01"]
 [ext_resource type="Script" path="res://chara/chara_behaviors/perform_action.gd" id="7_pahtk"]
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_4p3y1"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_7a4pi"]
 viewport_path = NodePath("HealthBar3D/SubViewport")
 
 [node name="Enemy" instance=ExtResource("1_4gcbb")]
 speed = 4.0
 faction = "enemy"
+
+[node name="Perception" parent="." index="0"]
+hear_distance = 3.0
 
 [node name="CharaBehaviorTree" type="Node" parent="." index="1"]
 script = ExtResource("2_20x4f")
@@ -21,33 +25,35 @@ debug_log_current_path = true
 
 [node name="Sequence*" type="Node" parent="CharaBehaviorTree" index="0"]
 script = ExtResource("4_op0sq")
-stateful = true
 
 [node name="find_enemy" type="Node" parent="CharaBehaviorTree/Sequence*" index="0"]
 script = ExtResource("5_xjgwh")
 
-[node name="Yell" type="Node" parent="CharaBehaviorTree/Sequence*" index="1"]
+[node name="perform_action" type="Node" parent="CharaBehaviorTree/Sequence*" index="1"]
 script = ExtResource("7_pahtk")
-action_state_name = "Yell"
-need_towards_target = null
-reset_on_success = true
 
 [node name="approach_target" type="Node" parent="CharaBehaviorTree/Sequence*" index="2"]
 script = ExtResource("7_gje01")
-min_distance = 2.0
 
-[node name="Selector" type="Node" parent="CharaBehaviorTree/Sequence*/approach_target" index="0"]
+[node name="UntilFailure" type="Node" parent="CharaBehaviorTree/Sequence*" index="3"]
+script = ExtResource("7_0isjk")
+
+[node name="Selector" type="Node" parent="CharaBehaviorTree/Sequence*/UntilFailure" index="0"]
 script = ExtResource("3_0883p")
 
-[node name="AttackSliceDiagonal" type="Node" parent="CharaBehaviorTree/Sequence*/approach_target/Selector" index="0"]
+[node name="Sequence*" type="Node" parent="CharaBehaviorTree/Sequence*/UntilFailure/Selector" index="0"]
+script = ExtResource("4_op0sq")
+
+[node name="perform_action" type="Node" parent="CharaBehaviorTree/Sequence*/UntilFailure/Selector/Sequence*" index="0"]
 script = ExtResource("7_pahtk")
 action_state_name = "AttackSliceDiagonal"
-need_towards_target = null
-reset_on_success = true
 
-[node name="approach_target" type="Node" parent="CharaBehaviorTree/Sequence*/approach_target/Selector" index="1"]
+[node name="perform_action2" type="Node" parent="CharaBehaviorTree/Sequence*/UntilFailure/Selector/Sequence*" index="1"]
+script = ExtResource("7_pahtk")
+action_state_name = "AttackStab"
+
+[node name="approach_target" type="Node" parent="CharaBehaviorTree/Sequence*/UntilFailure/Selector" index="1"]
 script = ExtResource("7_gje01")
-speed_multiplier = 0.5
 
 [node name="Yell" parent="CharaStateMachine" index="1"]
 anim_time = 1.0
@@ -59,4 +65,4 @@ transform = Transform3D(1, 0, 1.1176e-08, -7.45058e-09, 1, 5.96046e-08, -1.49012
 transform = Transform3D(1, 0, 1.42109e-14, 0, 1, 0, -1.42109e-14, 0, 1, 0, 0, 0)
 
 [node name="HealthBar3D" parent="." index="6"]
-texture = SubResource("ViewportTexture_4p3y1")
+texture = SubResource("ViewportTexture_7a4pi")

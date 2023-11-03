@@ -40,6 +40,10 @@ func _physics_process(_delta):
             chara.find_nearest_enemy()
             camera.secondary_target=chara.input_target
 
+    if chara.input_target is Chara and chara.input_target.is_dead():
+        chara.input_target=null
+        camera.secondary_target=null
+
     if chara.input_target:
         chara.input_look=(chara.input_target.global_position-chara.global_position).normalized()
     

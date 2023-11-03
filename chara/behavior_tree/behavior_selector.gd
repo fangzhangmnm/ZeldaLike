@@ -8,8 +8,9 @@ func tick()->Result:
     while current_child<len(shuffled_children):
         var result:Result=shuffled_children[current_child]._tick()
         if result==RUNNING: return RUNNING
-        elif result==SUCCESS: return SUCCESS
-        else: current_child+=1
+        if result==SUCCESS: return SUCCESS
+        behavior_tree.current_execution_path.pop_back()
+        current_child+=1
     return FAILURE
 
 func get_default_name()->String:

@@ -14,6 +14,11 @@ const RUNNING=Result.RUNNING
 @export var reset_on_failure:bool = true:
     set(value):reset_on_failure=value;validate()
 
+@export var override_success:Result = SUCCESS:
+    set(value):override_success=value;validate()
+@export var override_failure:Result = FAILURE:
+    set(value):override_failure=value;validate()
+    
 @export var debug_log_reset_message=""
 @export var debug_log_tick_message=""
 
@@ -42,7 +47,6 @@ func _reset():
 
 func _tick()->Result:
     if debug_log_tick_message!="": print(debug_log_tick_message)
-    behavior_tree.current_execution_path.append(name)
     var result:Result=RUNNING
     if _is_first_tick:
         if behavior_tree.debug_log_enter and (not "debug_log" in behavior_tree.owner or behavior_tree.owner.debug_log):
@@ -51,10 +55,23 @@ func _tick()->Result:
         _is_first_tick=false
     if result==RUNNING:
         result=tick()
+    result=override_result(result)
     if result==SUCCESS and reset_on_success: _reset()
     if result==FAILURE and reset_on_failure: _reset()
+    behavior_tree.current_execution_path.push_front(name+"("+Result.keys()[result]+")")
     return result
 
+
+func _ready():
+    if Engine.is_editor_hint():
+        validate()
+        rename()
+
+func rename():
+    set_deferred("name",get_default_name())
+
+func validate():
+    pass
 
 func get_default_name()->String:
     var rtval=""
@@ -62,10 +79,9 @@ func get_default_name()->String:
     rtval=rtval.substr(rtval.rfind("/")+1)
     rtval=rtval.substr(0,rtval.find("."))
     return rtval
-
-func _ready():
-    if Engine.is_editor_hint():
-        validate()
-
-func validate():
-    name=get_default_name()
+    
+func override_result(result):
+    if result==SUCCESS: return override_success
+    if result==FAILURE: return override_failure
+    return result
+    

@@ -3,9 +3,9 @@ class_name BehaviorCompositor
 extends BehaviorNode
 
 @export var stateful:bool = false:
-    set(value):stateful=value;validate()
+    set(value):stateful=value;validate();rename()
 @export var random:bool = false:
-    set(value):random=value;validate()
+    set(value):random=value;validate();rename()
 
 var shuffled_children:Array[Node] = []
 var current_child:int=0

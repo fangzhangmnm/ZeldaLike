@@ -62,11 +62,14 @@ var right:Vector3:
 var state:CharaState:
     get:return state_machine.state
     set(_value):assert(false,"state is read only")
-func transition_to(name_or_state):
-    state_machine.transition_to(name_or_state)
+# func transition_to(name_or_state):
+#     state_machine.transition_to(name_or_state)
 
 func can_transit_jump()->bool:
     return is_on_floor() and not is_dead()
+
+func is_input_unlocked()->bool:
+    return state.input_unlocked
 
 func is_dead()->bool:
     return state==state_machine.dead_state
@@ -145,7 +148,7 @@ func angle_to_deg(_target:Node3D,_transform:=global_transform)->Vector3:
 func find_nearest_enemy():
     var nearest=perception.find_nearest_perceived(
         func(p):
-            return not is_friendly(p.owner) and perception.can_see(p,false)
+            return not is_friendly(p.owner)
     )
     if is_instance_valid(nearest): input_target = nearest.owner
     if is_instance_valid(input_target) and "perceptible" in input_target and input_target.perceptible not in perception.perceived:
@@ -158,5 +161,11 @@ func can_perceive(_target:Node3D)->bool:
     elif "perceptible" in _target:return _target.perceptible in perception.perceived
     else:return false
 
-    
+func perform_action(action_name,need_input_unlock=true)->bool:
+    if is_dead():return false
+    if need_input_unlock and not state.input_unlocked:return false
+    if debug_log: printt(name,"perform action",action_name)
+    state_machine.transition_to(action_name)
+    return true
+
 
