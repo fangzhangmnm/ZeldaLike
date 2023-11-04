@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://1rub37identf"]
+[gd_scene load_steps=15 format=3 uid="uid://1rub37identf"]
 
 [ext_resource type="PackedScene" uid="uid://cvvyqtf4ncg8d" path="res://chara/chara.tscn" id="1_4gcbb"]
 [ext_resource type="Script" path="res://chara/behavior_tree/behavior_tree.gd" id="2_rr0cv"]
@@ -14,9 +14,6 @@
 [ext_resource type="Script" path="res://chara/behavior_tree/decorators/always_success.gd" id="11_4p36k"]
 [ext_resource type="Script" path="res://chara/behavior_tree/decorators/repeat.gd" id="11_ki278"]
 [ext_resource type="Script" path="res://chara/behavior_tree/leafs/wait.gd" id="12_pu84d"]
-
-[sub_resource type="ViewportTexture" id="ViewportTexture_hkp6o"]
-viewport_path = NodePath("HealthBar3D/SubViewport")
 
 [node name="Enemy" instance=ExtResource("1_4gcbb")]
 speed = 4.0
@@ -119,6 +116,3 @@ transform = Transform3D(1, 0, 1.1176e-08, -7.45058e-09, 1, 5.96046e-08, -1.49012
 
 [node name="Knight_Body" parent="Knight/Rig/Skeleton3D" index="11"]
 transform = Transform3D(1, 0, 1.42109e-14, 0, 1, 0, -1.42109e-14, 0, 1, 0, 0, 0)
-
-[node name="HealthBar3D" parent="." index="6"]
-texture = SubResource("ViewportTexture_hkp6o")
