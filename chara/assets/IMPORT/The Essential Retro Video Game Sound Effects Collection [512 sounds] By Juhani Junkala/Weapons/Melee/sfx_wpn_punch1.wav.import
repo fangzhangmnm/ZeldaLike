@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://dftfp27gayt4f"
+path="res://.godot/imported/sfx_wpn_punch1.wav-fff81dfaa3ba4b4041a2bb2ec9dedff3.sample"
+
+[deps]
+
+source_file="res://chara/assets/IMPORT/The Essential Retro Video Game Sound Effects Collection [512 sounds] By Juhani Junkala/Weapons/Melee/sfx_wpn_punch1.wav"
+dest_files=["res://.godot/imported/sfx_wpn_punch1.wav-fff81dfaa3ba4b4041a2bb2ec9dedff3.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://0joi55c12eog"
+path="res://.godot/imported/impact.9.ogg-3456930dc697d036e7899dd476f35176.oggvorbisstr"
+
+[deps]
+
+source_file="res://chara/assets/IMPORT/10 impact shield blocks/impact.9.ogg"
+dest_files=["res://.godot/imported/impact.9.ogg-3456930dc697d036e7899dd476f35176.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

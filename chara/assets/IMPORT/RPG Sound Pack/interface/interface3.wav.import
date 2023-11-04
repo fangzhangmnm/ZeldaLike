@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bx0kip01wb4lb"
+path="res://.godot/imported/interface3.wav-c071fc9fc004c47816294a51f7b386af.sample"
+
+[deps]
+
+source_file="res://chara/assets/IMPORT/RPG Sound Pack/interface/interface3.wav"
+dest_files=["res://.godot/imported/interface3.wav-c071fc9fc004c47816294a51f7b386af.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

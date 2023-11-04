@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://bvsp5o2s6pi4i"
+path="res://.godot/imported/beltHandle1.ogg-3485a4a900cc3e61d5a820fc9a5185ee.oggvorbisstr"
+
+[deps]
+
+source_file="res://chara/assets/IMPORT/RPGSounds Kenney/beltHandle1.ogg"
+dest_files=["res://.godot/imported/beltHandle1.ogg-3485a4a900cc3e61d5a820fc9a5185ee.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

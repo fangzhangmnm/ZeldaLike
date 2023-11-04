@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://33v73lgv8ejp"
+path="res://.godot/imported/handleCoins2.ogg-ad8a0023b70d50335ef1becbb5457d81.oggvorbisstr"
+
+[deps]
+
+source_file="res://chara/assets/IMPORT/RPGSounds Kenney/handleCoins2.ogg"
+dest_files=["res://.godot/imported/handleCoins2.ogg-ad8a0023b70d50335ef1becbb5457d81.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

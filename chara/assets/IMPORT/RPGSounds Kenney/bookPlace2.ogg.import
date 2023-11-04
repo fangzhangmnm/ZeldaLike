@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://bguuv3n20pxt3"
+path="res://.godot/imported/bookPlace2.ogg-7a363965a36f2c7264f7a590ada15adf.oggvorbisstr"
+
+[deps]
+
+source_file="res://chara/assets/IMPORT/RPGSounds Kenney/bookPlace2.ogg"
+dest_files=["res://.godot/imported/bookPlace2.ogg-7a363965a36f2c7264f7a590ada15adf.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

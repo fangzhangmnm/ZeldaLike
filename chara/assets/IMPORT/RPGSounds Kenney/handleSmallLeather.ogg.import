@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://c1ax5r7u00uq0"
+path="res://.godot/imported/handleSmallLeather.ogg-9d9d6776ae31251eceaef2f2af99ba4b.oggvorbisstr"
+
+[deps]
+
+source_file="res://chara/assets/IMPORT/RPGSounds Kenney/handleSmallLeather.ogg"
+dest_files=["res://.godot/imported/handleSmallLeather.ogg-9d9d6776ae31251eceaef2f2af99ba4b.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

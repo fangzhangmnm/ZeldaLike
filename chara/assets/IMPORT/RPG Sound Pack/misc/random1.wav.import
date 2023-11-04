@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://dckaixy0ukwgi"
+path="res://.godot/imported/random1.wav-a175ad898d84a3ee18f932e83c86e4ed.sample"
+
+[deps]
+
+source_file="res://chara/assets/IMPORT/RPG Sound Pack/misc/random1.wav"
+dest_files=["res://.godot/imported/random1.wav-a175ad898d84a3ee18f932e83c86e4ed.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://dsykx01wvrweo"
+path="res://.godot/imported/dropLeather.ogg-ba2a936b252b2662b29e144c64a39e5f.oggvorbisstr"
+
+[deps]
+
+source_file="res://chara/assets/IMPORT/RPGSounds Kenney/dropLeather.ogg"
+dest_files=["res://.godot/imported/dropLeather.ogg-ba2a936b252b2662b29e144c64a39e5f.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

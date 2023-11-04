@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://cho2b6tnotkb8"
+path="res://.godot/imported/shade6.wav-ec6cee2957a59a8ac7435e4e7f6ba31b.sample"
+
+[deps]
+
+source_file="res://chara/assets/IMPORT/RPG Sound Pack/NPC/shade/shade6.wav"
+dest_files=["res://.godot/imported/shade6.wav-ec6cee2957a59a8ac7435e4e7f6ba31b.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

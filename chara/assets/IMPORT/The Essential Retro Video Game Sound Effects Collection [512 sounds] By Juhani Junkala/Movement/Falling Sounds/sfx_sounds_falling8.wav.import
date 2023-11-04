@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://b4nagjayf4jfn"
+path="res://.godot/imported/sfx_sounds_falling8.wav-a1f0b35bfa3094d01cad5b15cb5cbe27.sample"
+
+[deps]
+
+source_file="res://chara/assets/IMPORT/The Essential Retro Video Game Sound Effects Collection [512 sounds] By Juhani Junkala/Movement/Falling Sounds/sfx_sounds_falling8.wav"
+dest_files=["res://.godot/imported/sfx_sounds_falling8.wav-a1f0b35bfa3094d01cad5b15cb5cbe27.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://cwlnn1hdjm46y"
+path="res://.godot/imported/MENU A - Back.wav-7b0b262b33dcf9d9cf796b280bba4d10.sample"
+
+[deps]
+
+source_file="res://chara/assets/IMPORT/UI pack 1/MENU A - Back.wav"
+dest_files=["res://.godot/imported/MENU A - Back.wav-7b0b262b33dcf9d9cf796b280bba4d10.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

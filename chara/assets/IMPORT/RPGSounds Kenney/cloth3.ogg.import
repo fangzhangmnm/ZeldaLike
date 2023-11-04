@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://cpwucgnh4cffl"
+path="res://.godot/imported/cloth3.ogg-4de2277fbe1b702f55b610e41ee6612e.oggvorbisstr"
+
+[deps]
+
+source_file="res://chara/assets/IMPORT/RPGSounds Kenney/cloth3.ogg"
+dest_files=["res://.godot/imported/cloth3.ogg-4de2277fbe1b702f55b610e41ee6612e.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

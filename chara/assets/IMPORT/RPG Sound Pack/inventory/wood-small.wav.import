@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bftcvu4u545go"
+path="res://.godot/imported/wood-small.wav-19c316dfd37124c4484e04aae8add685.sample"
+
+[deps]
+
+source_file="res://chara/assets/IMPORT/RPG Sound Pack/inventory/wood-small.wav"
+dest_files=["res://.godot/imported/wood-small.wav-19c316dfd37124c4484e04aae8add685.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

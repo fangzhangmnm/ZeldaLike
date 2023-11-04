@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bl2qtkq64o2f"
+path="res://.godot/imported/sfx_exp_cluster10.wav-36181ee3d29989f92ac7ad526720b48e.sample"
+
+[deps]
+
+source_file="res://chara/assets/IMPORT/The Essential Retro Video Game Sound Effects Collection [512 sounds] By Juhani Junkala/Explosions/Clusters/sfx_exp_cluster10.wav"
+dest_files=["res://.godot/imported/sfx_exp_cluster10.wav-36181ee3d29989f92ac7ad526720b48e.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://dcyakrxpvrp3d"
+path="res://.godot/imported/giant3.wav-1f55a6f5c052e3c404e0c9eba1ef8648.sample"
+
+[deps]
+
+source_file="res://chara/assets/IMPORT/RPG Sound Pack/NPC/giant/giant3.wav"
+dest_files=["res://.godot/imported/giant3.wav-1f55a6f5c052e3c404e0c9eba1ef8648.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

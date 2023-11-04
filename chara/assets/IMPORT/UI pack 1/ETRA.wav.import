@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://s0uydk3g0pjx"
+path="res://.godot/imported/ETRA.wav-16719a61163ba0b6d3a0fbf63e9d1875.sample"
+
+[deps]
+
+source_file="res://chara/assets/IMPORT/UI pack 1/ETRA.wav"
+dest_files=["res://.godot/imported/ETRA.wav-16719a61163ba0b6d3a0fbf63e9d1875.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://7b4kcai03sk5"
+path="res://.godot/imported/metalClick.ogg-9a519077643c1f5ea8361d618e0730cc.oggvorbisstr"
+
+[deps]
+
+source_file="res://chara/assets/IMPORT/RPGSounds Kenney/metalClick.ogg"
+dest_files=["res://.godot/imported/metalClick.ogg-9a519077643c1f5ea8361d618e0730cc.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://cqxeegwlr3t0r"
+path="res://.godot/imported/bookClose.ogg-4e8e1efbe58863c945d7db911e3a50e6.oggvorbisstr"
+
+[deps]
+
+source_file="res://chara/assets/IMPORT/RPGSounds Kenney/bookClose.ogg"
+dest_files=["res://.godot/imported/bookClose.ogg-4e8e1efbe58863c945d7db911e3a50e6.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

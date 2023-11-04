@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://livkgi088256"
+path="res://.godot/imported/creak3.ogg-d55a3066ba6741cc29def0781a448374.oggvorbisstr"
+
+[deps]
+
+source_file="res://chara/assets/IMPORT/RPGSounds Kenney/creak3.ogg"
+dest_files=["res://.godot/imported/creak3.ogg-d55a3066ba6741cc29def0781a448374.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
