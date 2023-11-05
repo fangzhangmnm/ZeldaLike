@@ -5,7 +5,7 @@ extends Node
 
 var dash_pressed_time=0.0
 
-@export var long_press_threshold:float=0.2
+@export var long_press_threshold:=0.2
 
 func _physics_process(_delta):
     var input_move_joystick=Input.get_vector("move_left", "move_right", "move_forward", "move_back")
@@ -37,7 +37,7 @@ func _physics_process(_delta):
             chara.input_target=null
             camera.secondary_target=null
         else:
-            chara.find_nearest_enemy()
+            chara.input_target=chara.find_nearest_enemy() # todo use a dedicated logic
             camera.secondary_target=chara.input_target
 
     if chara.input_target is Chara and chara.input_target.is_dead():
@@ -46,5 +46,11 @@ func _physics_process(_delta):
 
     if chara.input_target:
         chara.input_look=(chara.input_target.global_position-chara.global_position).normalized()
+
+    if chara.debug_cheat:
+
+        if Input.is_action_just_pressed("debug_invisible"):
+            chara.perceptible.invisible=not chara.perceptible.invisible
+            printt("You are now", "invisible" if chara.perceptible.invisible else "visible")
     
     

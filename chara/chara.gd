@@ -3,6 +3,9 @@ extends CharacterBody3D
 const COLLISION_LAYER_NUMBER=10
 const GROUP_NAME="charas"
 
+@export_category("Blackboard")
+@export var blackboard:Dictionary={}
+
 @export_category("Locomotion")
 @export var speed:float=5 
 @export var jump_impulse:float=5
@@ -25,6 +28,7 @@ var poise_recovery_delay_timer:float=0
 
 @export_category("Misc")
 @export var faction:String="none"
+@export var debug_cheat:bool=false
 @export var debug_revive:bool=false
 @export var debug_log:bool=false
 
@@ -136,13 +140,13 @@ func process_grounded_movement(_move_vector:=Vector3.ZERO):
 
 
 
-func distance_to(_target:Node3D,_transform:=global_transform)->float:
+func distance_to(_target:Variant,_transform:=global_transform)->float:
     return perception.distance_to(_target,_transform)
     
-func angle_to(_target:Node3D,_transform:=global_transform)->Vector3:
+func angle_to(_target:Variant,_transform:=global_transform)->Vector3:
     return perception.angle_to(_target,_transform)
 
-func angle_to_deg(_target:Node3D,_transform:=global_transform)->Vector3:
+func angle_to_deg(_target:Variant,_transform:=global_transform)->Vector3:
     return perception.angle_to_deg(_target,_transform)
 
 func find_nearest_enemy():
@@ -150,15 +154,19 @@ func find_nearest_enemy():
         func(p):
             return not is_friendly(p.owner)
     )
-    if is_instance_valid(nearest): input_target = nearest.owner
-    if is_instance_valid(input_target) and "perceptible" in input_target and input_target.perceptible not in perception.perceived:
-        input_target=null
-    # printt(name,"find nearest enemy",input_target)
+    if is_instance_valid(nearest): return nearest.owner
+    else: return null
+    # if is_instance_valid(input_target) and "perceptible" in input_target and input_target.perceptible not in perception.perceived:
+    #     input_target=null
+    # # printt(name,"find nearest enemy",input_target)
+
+    # todo check if input target is still valid
 
 func can_perceive(_target:Node3D)->bool:
     if not is_instance_valid(_target):return false
     if _target is Perceptible:return _target in perception.perceived
     elif "perceptible" in _target:return _target.perceptible in perception.perceived
+    elif _target.has_node("Perceptible"):return _target.get_node("Perceptible") in perception.perceived
     else:return false
 
 func perform_action(action_name,need_input_unlock=true)->bool:

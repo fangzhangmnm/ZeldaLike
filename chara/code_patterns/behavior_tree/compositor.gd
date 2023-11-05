@@ -19,9 +19,10 @@ func halt():
     halt_running_child_if_any()
 
 func cleanup():
+    next_child_index=0 #TODO I forgot it last time is it a bug?
     assert(running_child==null)
 
 func halt_running_child_if_any():
     if running_child:
-        running_child.halt()
+        running_child._halt()
         running_child=null

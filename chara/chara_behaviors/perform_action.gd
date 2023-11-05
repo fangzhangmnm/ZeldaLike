@@ -34,4 +34,3 @@ func tick()->Result:
     else:
         return SUCCESS
 
-

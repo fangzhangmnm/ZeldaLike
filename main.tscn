@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://cc8qe53ukn336"]
+[gd_scene load_steps=9 format=3 uid="uid://cc8qe53ukn336"]
 
 [ext_resource type="PackedScene" uid="uid://1rub37identf" path="res://chara/simple_enemy.tscn" id="1_38s6b"]
 [ext_resource type="PackedScene" uid="uid://boxpw8aqwnxwb" path="res://chara/player.tscn" id="2_twb8q"]
@@ -15,19 +15,34 @@ background_mode = 2
 sky = SubResource("Sky_2lnpc")
 ambient_light_source = 3
 
+[sub_resource type="Curve3D" id="Curve3D_vk1u5"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -7.8699, 0, -0.13488, 0, 0, 0, 0, 0, 0, 8.04255, 0, 0.394176, 0, 0, 0, 0, 0, 0, -7.8699, 0, -0.13488),
+"tilts": PackedFloat32Array(0, 0, 0)
+}
+point_count = 3
+
 [node name="main" type="Node3D"]
 
 [node name="Enemy" parent="." groups=["enemy"] instance=ExtResource("1_38s6b")]
 transform = Transform3D(-0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, -0.965926, 0.0520545, 0, -13.9643)
+blackboard = {
+"patrol_path": NodePath("../Path3D")
+}
 
 [node name="Enemy2" parent="." groups=["enemy"] instance=ExtResource("1_38s6b")]
-transform = Transform3D(-0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, -0.965926, 3.37323, 0, -17.8558)
+transform = Transform3D(-0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, -0.965926, 3.37323, 0, -20.5992)
+blackboard = {
+"patrol_path": NodePath("../Path3D2")
+}
 
 [node name="Enemy3" parent="." groups=["enemy"] instance=ExtResource("1_38s6b")]
-transform = Transform3D(-0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, -0.965926, 12.3934, 0, -19.0367)
+transform = Transform3D(-0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, -0.965926, 0.914484, 0, -13.5742)
+debug_log = true
 
 [node name="Player" parent="." groups=["player"] instance=ExtResource("2_twb8q")]
 unique_name_in_owner = true
+debug_cheat = true
 debug_revive = true
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
@@ -40,3 +55,11 @@ environment = SubResource("Environment_mb3nx")
 
 [node name="CameraPivot" parent="." node_paths=PackedStringArray("target") instance=ExtResource("3_g17ke")]
 target = NodePath("../Player")
+
+[node name="Path3D" type="Path3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -15.9571)
+curve = SubResource("Curve3D_vk1u5")
+
+[node name="Path3D2" type="Path3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -20.4766)
+curve = SubResource("Curve3D_vk1u5")

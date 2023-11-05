@@ -13,7 +13,7 @@ var behavior_tree:BehaviorTree=null
 var parent:BehaviorNode=null
 var delta:float:
     get:return behavior_tree.delta
-var blackboard:Node:
+var blackboard:Blackboard:
     get:return behavior_tree.blackboard
 var actor:Node:
     get:return behavior_tree.actor
@@ -33,7 +33,7 @@ func finish()->void:
 func halt()->void:
     pass
 
-func cleanup()->void: # finish or interrupt
+func cleanup()->void: # finish or halt
     pass
 
 func _tick()->Result:

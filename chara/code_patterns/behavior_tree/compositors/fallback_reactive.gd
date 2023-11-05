@@ -5,7 +5,7 @@ extends BehaviorCompositor
 func tick():
     while next_child_index<shuffled_children.size():
         # we want to check if children before the running child still returns FAILURE
-        # if they returns SUCCESS or RUNNING, we need to interrupt the running child
+        # if they returns SUCCESS or RUNNING, we need to halt the running child
         var next_running_child=shuffled_children[next_child_index]
         var _result=next_running_child._tick()
         match _result:

@@ -18,5 +18,5 @@ func cleanup():
 
 func halt_running_child_if_any():
     if running_child:
-        running_child.halt()
+        running_child._halt()
         running_child=null

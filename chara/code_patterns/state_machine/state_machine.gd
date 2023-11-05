@@ -9,7 +9,7 @@ signal transitioned(state_name)
 @export var state :State= null # the current state, also used to configure the initial state
 enum Tick_Behavior{PROCESS,PHYSICS_PROCESS,EXTERNAL}
 @export var tick_behavior:Tick_Behavior=Tick_Behavior.PHYSICS_PROCESS
-@export var blackboard:Node
+@export var blackboard:Blackboard
 @export var actor:Node
 @export var debug_log_transition:bool = false
 

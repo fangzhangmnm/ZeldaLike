@@ -4,7 +4,7 @@ extends Node
 var state_machine:StateMachine = null
 var delta:float:
     get:return state_machine.delta
-var blackboard:Node:
+var blackboard:Blackboard:
     get:return state_machine.blackboard
 var actor:Node:
     get:return state_machine.actor

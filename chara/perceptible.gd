@@ -3,6 +3,7 @@ extends Node3D
 
 const GROUP_NAME="Perceptibles"
 
+@export var invisible: bool = false
 @export var look_distance_multiplier: float = 1.0
 @export var hear_distance_multiplier: float = 1.0
 @export var sense_distance_multiplier: float = 1.0

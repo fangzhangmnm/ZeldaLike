@@ -10,9 +10,12 @@ signal failure
 enum Tick_Behavior{PROCESS,PHYSICS_PROCESS,EXTERNAL}
 @export var tick_behavior:Tick_Behavior=Tick_Behavior.PHYSICS_PROCESS
 @export var restart:bool=false
-@export var blackboard:Node
+@export var blackboard:Blackboard
 @export var actor:Node
-@export var debug_log:bool=false
+
+@export_category("Debug")
+@export var current_execution_path:String=""
+@export var debug_log_execution_path:bool=false
 
 var delta:float=0.0 #time since last tick
 
@@ -34,16 +37,19 @@ func tick(_delta):
         execution_path.clear()
         result=root._tick()
 
-        if debug_log and (not('debug_log' in actor) or actor.debug_log):
-            print(actor.name+" "+get_execution_path_string())
+        var last_execution_path=current_execution_path
+
+        current_execution_path=get_execution_path_string()
+        if debug_log_execution_path and (not('debug_log' in actor) or actor.debug_log) and last_execution_path!=current_execution_path:
+            print(actor.name+" "+current_execution_path)
 
         if result==BehaviorNode.Result.SUCCESS: success.emit()
         elif result==BehaviorNode.Result.FAILURE: failure.emit()
 
         if restart: result=BehaviorNode.Result.RUNNING
 
-func interrupt():
-    root._interrupt()
+func halt():
+    root._halt()
 
 func _process(_delta):
     if tick_behavior==Tick_Behavior.PROCESS:

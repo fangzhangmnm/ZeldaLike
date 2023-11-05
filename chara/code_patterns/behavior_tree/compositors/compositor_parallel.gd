@@ -20,5 +20,5 @@ func cleanup():
 
 func halt_running_children_if_any():
     for child in running_children:
-        child.halt()
+        child._halt()
     running_children=[]

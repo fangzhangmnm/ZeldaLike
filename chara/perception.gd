@@ -47,6 +47,7 @@ func can_hear(_target:Perceptible)->bool:
 
 func can_see(_target:Perceptible,raycast:bool=true)->bool:
     # can be only called inside _physics_process
+    if _target.invisible:return false
     var distance=distance_to(_target)
     var distance_threshold=look_distance*_target.look_distance_multiplier
     if distance>distance_threshold:return false
@@ -58,22 +59,24 @@ func can_see(_target:Perceptible,raycast:bool=true)->bool:
 func can_perceive(_target:Perceptible)->bool:
     return can_sense(_target) or can_hear(_target) or can_see(_target)
 
-func distance_to(_target:Node3D,_transform:=global_transform)->float:
-    return _transform.origin.distance_to(_target.global_position)
+func distance_to(_target:Variant,_transform:=global_transform)->float:
+    if _target is Node3D:_target=(_target as Node3D).global_position
+    return _transform.origin.distance_to(_target)
     
-func angle_to(_target:Node3D,_transform:=global_transform)->Vector3:
+func angle_to(_target:Variant,_transform:=global_transform)->Vector3:
+    if _target is Node3D:_target=(_target as Node3D).global_position
     var t=Transform3D(_transform);t.basis.x=t.basis.x.normalized();t.basis.y=t.basis.y.normalized();t.basis.z=t.basis.z.normalized()
-    var v=global_transform.inverse()*_target.global_position
+    var v=global_transform.inverse()*_target
     var angle:Vector3=Vector3(
         atan2(v.y,sqrt(v.x*v.x+v.z*v.z)),
         atan2(v.x,-v.z),
         0)
     return angle
 
-func angle_to_deg(_target:Node3D,_transform:=global_transform)->Vector3:
+func angle_to_deg(_target:Variant,_transform:=global_transform)->Vector3:
     return angle_to(_target,_transform)*rad_to_deg(1)
 
-func in_look_angle(_target:Node3D)->bool:
+func in_look_angle(_target:Variant)->bool:
     var angle=angle_to(_target)
     var angle_deg=angle*rad_to_deg(1)
     if abs(angle_deg.y)>look_angle_deg:return false

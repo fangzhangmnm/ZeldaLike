@@ -16,5 +16,5 @@ func finish()->void:
 func halt()->void:
     pass
 
-func cleanup()->void: # finish or interrupt
+func cleanup()->void: # finish or halt
     pass
