@@ -74,7 +74,6 @@ script = ExtResource("5_vyedw")
 [node name="Attack1" type="Node" parent="BehaviorTree/main loop/is enemy presence/deal with enemy/response to enemy/Repeat/FallbackReactive/Sequence" index="0"]
 script = ExtResource("8_32yvd")
 action_state_name = "AttackSliceDiagonal"
-finish_on = 1
 need_towards_target = true
 
 [node name="BehaviorWait" type="Node" parent="BehaviorTree/main loop/is enemy presence/deal with enemy/response to enemy/Repeat/FallbackReactive/Sequence" index="1"]
@@ -84,7 +83,6 @@ wait_time = 0.1
 [node name="Attack2" type="Node" parent="BehaviorTree/main loop/is enemy presence/deal with enemy/response to enemy/Repeat/FallbackReactive/Sequence" index="2"]
 script = ExtResource("8_32yvd")
 action_state_name = "AttackStab"
-finish_on = 1
 need_towards_target = true
 
 [node name="BehaviorWait2" type="Node" parent="BehaviorTree/main loop/is enemy presence/deal with enemy/response to enemy/Repeat/FallbackReactive/Sequence" index="3"]
@@ -94,8 +92,11 @@ wait_time = 0.1
 [node name="Attack3" type="Node" parent="BehaviorTree/main loop/is enemy presence/deal with enemy/response to enemy/Repeat/FallbackReactive/Sequence" index="4"]
 script = ExtResource("8_32yvd")
 action_state_name = "AttackChop"
-finish_on = 1
 need_towards_target = true
+
+[node name="BehaviorWait3" type="Node" parent="BehaviorTree/main loop/is enemy presence/deal with enemy/response to enemy/Repeat/FallbackReactive/Sequence" index="5"]
+script = ExtResource("12_pu84d")
+wait_time = 0.1
 
 [node name="go to enemy" type="Node" parent="BehaviorTree/main loop/is enemy presence/deal with enemy/response to enemy/Repeat/FallbackReactive" index="1"]
 script = ExtResource("10_roexy")
@@ -144,8 +145,35 @@ hear_distance = 3.0
 [node name="Yell" parent="CharaStateMachine" index="1"]
 anim_time = 1.0
 
+[node name="1H_Sword_Offhand" parent="Knight/Rig/Skeleton3D" index="0"]
+transform = Transform3D(-0.425483, 0.533775, 0.730785, 0.83191, -0.0871572, 0.548023, 0.356214, 0.841122, -0.406968, 0.630348, 0.719077, -0.0483828)
+
+[node name="Badge_Shield" parent="Knight/Rig/Skeleton3D" index="1"]
+transform = Transform3D(-0.425482, 0.533776, 0.730785, 0.831909, -0.0871595, 0.548024, 0.356217, 0.841121, -0.406968, 0.744267, 0.804506, -0.111823)
+
+[node name="Rectangle_Shield" parent="Knight/Rig/Skeleton3D" index="2"]
+transform = Transform3D(-0.425482, 0.533776, 0.730785, 0.831909, -0.0871595, 0.548024, 0.356217, 0.841121, -0.406968, 0.744267, 0.804506, -0.111823)
+
+[node name="Round_Shield" parent="Knight/Rig/Skeleton3D" index="3"]
+transform = Transform3D(-0.425482, 0.533776, 0.730785, 0.831909, -0.0871595, 0.548024, 0.356217, 0.841121, -0.406968, 0.744267, 0.804506, -0.111823)
+
+[node name="Spike_Shield" parent="Knight/Rig/Skeleton3D" index="4"]
+transform = Transform3D(-0.425482, 0.533776, 0.730785, 0.831909, -0.0871595, 0.548024, 0.356217, 0.841121, -0.406968, 0.744267, 0.804506, -0.111823)
+
+[node name="1H_Sword" parent="Knight/Rig/Skeleton3D" index="5"]
+transform = Transform3D(0.323037, 0.023211, 0.946101, 0.946161, 0.0138471, -0.323399, -0.0206072, 0.999634, -0.0174882, -0.428827, 0.783836, 0.745224)
+
 [node name="CollisionShape3D" parent="Knight/Rig/Skeleton3D/1H_Sword/1H_Sword/HitBox" index="0"]
 transform = Transform3D(1, 0, 1.1176e-08, -7.45058e-09, 1, 5.96046e-08, -1.49012e-08, 4.47035e-08, 1, 0, 0.791278, 5.96046e-08)
+
+[node name="2H_Sword" parent="Knight/Rig/Skeleton3D" index="6"]
+transform = Transform3D(0.323037, 0.023211, 0.946101, 0.946161, 0.0138471, -0.323399, -0.0206072, 0.999634, -0.0174882, -0.428827, 0.783836, 0.745224)
+
+[node name="Knight_Helmet" parent="Knight/Rig/Skeleton3D" index="7"]
+transform = Transform3D(0.995488, -0.0807319, -0.0498675, 0.0708114, 0.981848, -0.175957, 0.0631676, 0.171631, 0.983134, 0.00301199, 1.17481, 0.341482)
+
+[node name="Knight_Cape" parent="Knight/Rig/Skeleton3D" index="8"]
+transform = Transform3D(0.956635, -0.000101326, 0.29129, 0.0777178, 0.963839, -0.2549, -0.280731, 0.266485, 0.92205, 0.000952623, 1.17527, 0.33906)
 
 [node name="Knight_Body" parent="Knight/Rig/Skeleton3D" index="11"]
 transform = Transform3D(1, 0, 1.42109e-14, 0, 1, 0, -1.42109e-14, 0, 1, 0, 0, 0)
