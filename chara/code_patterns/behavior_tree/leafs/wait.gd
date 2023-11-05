@@ -1,5 +1,5 @@
 class_name BehaviorWait
-extends BehaviorNode
+extends BehaviorAction
 
 @export var wait_time : float = 1.0
 var elapsed_time : float = 0.0
