@@ -3,7 +3,7 @@ extends CharaBehaviorAction
 @export var min_distance:float=1
 @export var speed_multiplier:float=1
 
-@export var target_key:String="target"
+@export var target_key:StringName="target"
 
 func tick()->Result:
     print("approach_target is deprecated")

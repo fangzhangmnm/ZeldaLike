@@ -2,7 +2,7 @@ class_name CharaState
 extends State
 
 @export_category("Animation and Length")
-@export var anim_name:String=""
+@export var anim_name:StringName=""
 @export var anim_time:float=-1
 @export var anim_fade:bool=true
 

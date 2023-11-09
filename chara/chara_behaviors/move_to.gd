@@ -3,7 +3,7 @@ extends CharaBehaviorAction
 @export var min_distance:=0.5
 @export var speed_multiplier:=0.5
 @export var speed_coeff:=1.
-@export var position_or_node_key:String="target"
+@export var position_or_node_key:StringName="target"
 
 func tick()->Result:
     var position=blackboard.get_value(position_or_node_key)

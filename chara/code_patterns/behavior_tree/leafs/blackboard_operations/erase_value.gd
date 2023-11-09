@@ -1,7 +1,7 @@
 class_name BehaviorEraseValue
-extends BehaviorCondition
+extends BehaviorAction
 
-@export var key: String
+@export var key: StringName
 
 func tick()->Result:
     blackboard.erase_value(key)

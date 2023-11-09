@@ -25,7 +25,7 @@ viewport_path = NodePath("HealthBar3D/SubViewport")
 speed = 4.0
 max_poise = 10
 current_poise = 10.0
-faction = "enemy"
+faction = &"enemy"
 
 [node name="BehaviorTree" type="Node" parent="." index="1"]
 script = ExtResource("2_rr0cv")
@@ -54,7 +54,7 @@ script = ExtResource("8_p5tve")
 
 [node name="Yell" type="Node" parent="BehaviorTree/main loop/is enemy presence/deal with enemy/response to enemy/once" index="0"]
 script = ExtResource("8_32yvd")
-action_state_name = "Yell"
+action_state_name = &"Yell"
 
 [node name="apporach enemy" type="Node" parent="BehaviorTree/main loop/is enemy presence/deal with enemy/response to enemy" index="1"]
 script = ExtResource("10_roexy")
@@ -73,7 +73,7 @@ script = ExtResource("5_vyedw")
 
 [node name="Attack1" type="Node" parent="BehaviorTree/main loop/is enemy presence/deal with enemy/response to enemy/Repeat/FallbackReactive/Sequence" index="0"]
 script = ExtResource("8_32yvd")
-action_state_name = "AttackSliceDiagonal"
+action_state_name = &"AttackSliceDiagonal"
 need_towards_target = true
 
 [node name="BehaviorWait" type="Node" parent="BehaviorTree/main loop/is enemy presence/deal with enemy/response to enemy/Repeat/FallbackReactive/Sequence" index="1"]
@@ -82,7 +82,7 @@ wait_time = 0.1
 
 [node name="Attack2" type="Node" parent="BehaviorTree/main loop/is enemy presence/deal with enemy/response to enemy/Repeat/FallbackReactive/Sequence" index="2"]
 script = ExtResource("8_32yvd")
-action_state_name = "AttackStab"
+action_state_name = &"AttackStab"
 need_towards_target = true
 
 [node name="BehaviorWait2" type="Node" parent="BehaviorTree/main loop/is enemy presence/deal with enemy/response to enemy/Repeat/FallbackReactive/Sequence" index="3"]
@@ -91,7 +91,7 @@ wait_time = 0.1
 
 [node name="Attack3" type="Node" parent="BehaviorTree/main loop/is enemy presence/deal with enemy/response to enemy/Repeat/FallbackReactive/Sequence" index="4"]
 script = ExtResource("8_32yvd")
-action_state_name = "AttackChop"
+action_state_name = &"AttackChop"
 need_towards_target = true
 
 [node name="BehaviorWait3" type="Node" parent="BehaviorTree/main loop/is enemy presence/deal with enemy/response to enemy/Repeat/FallbackReactive/Sequence" index="5"]
@@ -110,15 +110,12 @@ script = ExtResource("5_vyedw")
 
 [node name="HasValue" type="Node" parent="BehaviorTree/main loop/is enemy presence/Fallback/goto last enemy position" index="0"]
 script = ExtResource("14_8vqqa")
-key = "last_seen_position"
 
 [node name="MoveTo" type="Node" parent="BehaviorTree/main loop/is enemy presence/Fallback/goto last enemy position" index="1"]
 script = ExtResource("10_roexy")
-position_or_node_key = "last_seen_position"
 
 [node name="EraseValue" type="Node" parent="BehaviorTree/main loop/is enemy presence/Fallback/goto last enemy position" index="2"]
 script = ExtResource("15_lqmxw")
-key = "last_seen_position"
 
 [node name="patrol" type="Node" parent="BehaviorTree/main loop/is enemy presence/Fallback" index="1"]
 script = ExtResource("11_ki278")
@@ -137,7 +134,7 @@ script = ExtResource("11_4p36k")
 
 [node name="Idle" type="Node" parent="BehaviorTree/main loop/is enemy presence/Fallback/Idle/AlwaysSuccess" index="0"]
 script = ExtResource("8_32yvd")
-action_state_name = "Idle"
+action_state_name = &"Idle"
 
 [node name="Perception" parent="." index="2"]
 hear_distance = 3.0
@@ -145,35 +142,13 @@ hear_distance = 3.0
 [node name="Yell" parent="CharaStateMachine" index="1"]
 anim_time = 1.0
 
-[node name="1H_Sword_Offhand" parent="Knight/Rig/Skeleton3D" index="0"]
-transform = Transform3D(-0.425483, 0.533775, 0.730785, 0.83191, -0.0871572, 0.548023, 0.356214, 0.841122, -0.406968, 0.630348, 0.719077, -0.0483828)
-
-[node name="Badge_Shield" parent="Knight/Rig/Skeleton3D" index="1"]
-transform = Transform3D(-0.425482, 0.533776, 0.730785, 0.831909, -0.0871595, 0.548024, 0.356217, 0.841121, -0.406968, 0.744267, 0.804506, -0.111823)
-
-[node name="Rectangle_Shield" parent="Knight/Rig/Skeleton3D" index="2"]
-transform = Transform3D(-0.425482, 0.533776, 0.730785, 0.831909, -0.0871595, 0.548024, 0.356217, 0.841121, -0.406968, 0.744267, 0.804506, -0.111823)
-
-[node name="Round_Shield" parent="Knight/Rig/Skeleton3D" index="3"]
-transform = Transform3D(-0.425482, 0.533776, 0.730785, 0.831909, -0.0871595, 0.548024, 0.356217, 0.841121, -0.406968, 0.744267, 0.804506, -0.111823)
-
-[node name="Spike_Shield" parent="Knight/Rig/Skeleton3D" index="4"]
-transform = Transform3D(-0.425482, 0.533776, 0.730785, 0.831909, -0.0871595, 0.548024, 0.356217, 0.841121, -0.406968, 0.744267, 0.804506, -0.111823)
-
-[node name="1H_Sword" parent="Knight/Rig/Skeleton3D" index="5"]
-transform = Transform3D(0.323037, 0.023211, 0.946101, 0.946161, 0.0138471, -0.323399, -0.0206072, 0.999634, -0.0174882, -0.428827, 0.783836, 0.745224)
+[node name="Move" parent="CharaStateMachine" index="4"]
+anim_name_left = &"Running_Strafe_Left"
+anim_name_right = &"Running_Strafe_Right"
+anim_name_back = &"Walking_Backwards"
 
 [node name="CollisionShape3D" parent="Knight/Rig/Skeleton3D/1H_Sword/1H_Sword/HitBox" index="0"]
 transform = Transform3D(1, 0, 1.1176e-08, -7.45058e-09, 1, 5.96046e-08, -1.49012e-08, 4.47035e-08, 1, 0, 0.791278, 5.96046e-08)
-
-[node name="2H_Sword" parent="Knight/Rig/Skeleton3D" index="6"]
-transform = Transform3D(0.323037, 0.023211, 0.946101, 0.946161, 0.0138471, -0.323399, -0.0206072, 0.999634, -0.0174882, -0.428827, 0.783836, 0.745224)
-
-[node name="Knight_Helmet" parent="Knight/Rig/Skeleton3D" index="7"]
-transform = Transform3D(0.995488, -0.0807319, -0.0498675, 0.0708114, 0.981848, -0.175957, 0.0631676, 0.171631, 0.983134, 0.00301199, 1.17481, 0.341482)
-
-[node name="Knight_Cape" parent="Knight/Rig/Skeleton3D" index="8"]
-transform = Transform3D(0.956635, -0.000101326, 0.29129, 0.0777178, 0.963839, -0.2549, -0.280731, 0.266485, 0.92205, 0.000952623, 1.17527, 0.33906)
 
 [node name="Knight_Body" parent="Knight/Rig/Skeleton3D" index="11"]
 transform = Transform3D(1, 0, 1.42109e-14, 0, 1, 0, -1.42109e-14, 0, 1, 0, 0, 0)

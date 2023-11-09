@@ -2,7 +2,7 @@
 class_name CharaBehaviorPerformAction
 extends CharaBehaviorAction
 
-@export var action_state_name: String = "Action"
+@export var action_state_name: StringName = "Action"
     # set(value):action_state_name=value;validate()
 
 enum FinishBehavior{ANIMATION_END,INPUT_UNLOCK}

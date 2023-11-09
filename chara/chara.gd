@@ -27,7 +27,7 @@ var poise_recovery_delay_timer:float=0
 @export var attack_poise_damage:int=10
 
 @export_category("Misc")
-@export var faction:String="none"
+@export var faction:StringName="none"
 @export var debug_cheat:bool=false
 @export var debug_revive:bool=false
 @export var debug_log:bool=false

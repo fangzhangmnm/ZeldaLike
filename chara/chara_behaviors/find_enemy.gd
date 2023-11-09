@@ -1,7 +1,7 @@
 extends CharaBehaviorAction
 
-@export var store_target_key:String="target"
-@export var store_position_key:String="last_seen_position"
+@export var store_target_key:StringName="target"
+@export var store_position_key:StringName="last_seen_position"
 @export var lock_on_target:bool=true
 
 func tick():

@@ -1,9 +1,16 @@
-[gd_scene load_steps=9 format=3 uid="uid://cc8qe53ukn336"]
+[gd_scene load_steps=16 format=3 uid="uid://cc8qe53ukn336"]
 
 [ext_resource type="PackedScene" uid="uid://1rub37identf" path="res://chara/simple_enemy.tscn" id="1_38s6b"]
 [ext_resource type="PackedScene" uid="uid://boxpw8aqwnxwb" path="res://chara/player.tscn" id="2_twb8q"]
 [ext_resource type="PackedScene" uid="uid://dh6aa8lay65sh" path="res://chara/camera_rig.tscn" id="3_g17ke"]
 [ext_resource type="PackedScene" uid="uid://du35b5b5n33sx" path="res://dungeon_scene/dungeon_environment.tscn" id="4_brmdi"]
+[ext_resource type="Script" path="res://chara/code_patterns/blackboard.gd" id="5_j8il5"]
+[ext_resource type="Script" path="res://chara/code_patterns/behavior_tree/behavior_tree.gd" id="6_kkaa1"]
+[ext_resource type="Script" path="res://chara/code_patterns/behavior_tree/compositors/sequence.gd" id="7_8jjko"]
+[ext_resource type="Script" path="res://chara/code_patterns/behavior_tree/leafs/common_behaviors/count_nodes.gd" id="8_4d1dw"]
+[ext_resource type="Script" path="res://chara/code_patterns/behavior_tree/leafs/common_behaviors/spawn.gd" id="8_fhejn"]
+[ext_resource type="Script" path="res://chara/code_patterns/behavior_tree/leafs/blackboard_operations/compare.gd" id="9_3itas"]
+[ext_resource type="Script" path="res://chara/code_patterns/behavior_tree/leafs/wait.gd" id="10_5no5p"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ybn11"]
 
@@ -42,6 +49,7 @@ debug_log = true
 
 [node name="Player" parent="." groups=["player"] instance=ExtResource("2_twb8q")]
 unique_name_in_owner = true
+faction = &"none"
 debug_cheat = true
 debug_revive = true
 
@@ -63,3 +71,43 @@ curve = SubResource("Curve3D_vk1u5")
 [node name="Path3D2" type="Path3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -20.4766)
 curve = SubResource("Curve3D_vk1u5")
+
+[node name="LevelBehavior" type="Node" parent="."]
+script = ExtResource("5_j8il5")
+blackboard = {
+"spawn_position": NodePath("../Spawn")
+}
+debug_log_value_changes = true
+
+[node name="BehaviorTree" type="Node" parent="LevelBehavior" node_paths=PackedStringArray("blackboard", "actor")]
+script = ExtResource("6_kkaa1")
+restart = true
+blackboard = NodePath("..")
+actor = NodePath("..")
+debug_log_execution_path = true
+
+[node name="BehaviorSequence" type="Node" parent="LevelBehavior/BehaviorTree"]
+script = ExtResource("7_8jjko")
+
+[node name="BehaviorCountNodes" type="Node" parent="LevelBehavior/BehaviorTree/BehaviorSequence"]
+script = ExtResource("8_4d1dw")
+group_name = &"enemy"
+output_key = &"enemy_count"
+
+[node name="BehaviorCompare" type="Node" parent="LevelBehavior/BehaviorTree/BehaviorSequence"]
+script = ExtResource("9_3itas")
+A_key = &"enemy_count"
+operation = 4
+
+[node name="BehaviorWait" type="Node" parent="LevelBehavior/BehaviorTree/BehaviorSequence"]
+script = ExtResource("10_5no5p")
+wait_time = 0.3
+
+[node name="BehaviorSpawn" type="Node" parent="LevelBehavior/BehaviorTree/BehaviorSequence"]
+script = ExtResource("8_fhejn")
+prefab = ExtResource("1_38s6b")
+group = &"enemy"
+
+[node name="Spawn" type="Marker3D" parent="."]
+transform = Transform3D(-0.238313, 0, -0.971188, 0, 1, 0, 0.971188, 0, -0.238313, -10.5063, 0, -25.4077)
+gizmo_extents = 1.0

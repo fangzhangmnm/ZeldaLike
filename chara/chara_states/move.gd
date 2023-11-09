@@ -2,9 +2,9 @@
 extends CharaState
 
 @export var dash_speed_multiplier:float=1.5
-@export var anim_name_left:String
-@export var anim_name_right:String
-@export var anim_name_back:String
+@export var anim_name_left:StringName
+@export var anim_name_right:StringName
+@export var anim_name_back:StringName
 
 func tick():
     super()

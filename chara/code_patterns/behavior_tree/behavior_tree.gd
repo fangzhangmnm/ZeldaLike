@@ -29,6 +29,8 @@ func _ready():
     result=BehaviorNode.Result.RUNNING
     if not is_instance_valid(blackboard) and owner.has_node("Blackboard"):
         blackboard=owner.get_node("Blackboard")
+    if not is_instance_valid(blackboard) and owner is Blackboard:
+        blackboard=owner
     if not is_instance_valid(actor):actor=owner
 
 func tick(_delta):

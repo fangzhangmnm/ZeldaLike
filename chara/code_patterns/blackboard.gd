@@ -6,6 +6,8 @@ extends Node
 @export var use_owner_blackboard:bool=false
 @export var owner_inherits_my_blackboard:bool=false
 
+@export var debug_log_value_changes:bool=false
+
 var blackboard_node:Node=null
 
 func _ready()->void:
@@ -25,6 +27,9 @@ func keys()->Array[String]:
     return blackboard.keys().duplicate()
 
 func set_value(key:Variant,value:Variant)->void:
+    if debug_log_value_changes and (not "debug_log" in owner or owner.debug_log):
+        if get_value(key)!=value:
+            print(owner.name+" set "+key+" to "+str(value))
     blackboard[key]=value
 
 func has_value(key:Variant)->bool:
